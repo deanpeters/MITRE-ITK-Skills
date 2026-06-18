@@ -220,6 +220,9 @@ def load_skills():
         raw_name = h1.group(1).strip() if h1 else skill_dir.name.replace("-", " ")
         display_name = _normalize_display_name(raw_name)
 
+        template_file = skill_dir / "template.md"
+        template = template_file.read_text(encoding="utf-8") if template_file.exists() else ""
+
         slug = skill_dir.name
         skills[slug] = {
             "slug": slug,
@@ -231,6 +234,7 @@ def load_skills():
             "time_required": fm.get("time_required", ""),
             "best_for": fm.get("best_for") or [],
             "content": content,
+            "template": template,
         }
     return skills
 
@@ -610,35 +614,24 @@ def page_skill_runner(skills):
                 st.markdown(f"- {item}")
 
     st.divider()
-    st.subheader("Set up your session")
-    st.caption("The more context you provide, the more tailored the facilitation guide.")
+    st.subheader("Tell me about your situation")
+    st.caption("The more context you provide, the more useful the output.")
 
     with st.form("session_form"):
         project = st.text_input(
             "Product or project",
             placeholder="e.g., DataBridge v2.0 — federal analytics platform",
         )
-        goal = st.text_area(
-            "What do you want to walk away with from this session?",
+        context = st.text_area(
+            "What do you know? Share your raw inputs.",
             placeholder=(
-                "e.g., A prioritized shortlist of the 3 most critical stakeholder groups "
-                "to engage before the discovery kickoff next week."
+                "e.g., We're building for federal analysts who produce weekly intelligence briefs. "
+                "From interviews: they spend 2+ hours manually reconciling data exports. "
+                "Key pain: no audit trail when challenged by supervisors. "
+                "We have 14 interviews and a support ticket analysis."
             ),
-            height=100,
+            height=160,
         )
-        col_size, col_time = st.columns(2)
-        with col_size:
-            team_size = st.selectbox(
-                "Team size",
-                ["Solo or pair (1–3)", "Small team (4–8)", "Large group (9+)"],
-                index=1,
-            )
-        with col_time:
-            time_box = st.selectbox(
-                "Time available",
-                ["30 minutes", "45 minutes", "60 minutes", "90 minutes", "Multiple sessions"],
-                index=2,
-            )
         extra = st.text_area(
             "Anything else I should know? (optional)",
             placeholder=(
@@ -647,7 +640,7 @@ def page_skill_runner(skills):
             ),
             height=80,
         )
-        submitted = st.form_submit_button("Generate facilitation guide →", type="primary")
+        submitted = st.form_submit_button(f"Run {skill['display_name']} →", type="primary")
 
     if submitted:
         config = get_llm_config()
@@ -662,62 +655,100 @@ def page_skill_runner(skills):
                     st.error("OPENAI_API_KEY not found. Set it in your environment and restart the app.")
                 else:
                     st.error("Enter a model name for your local endpoint.")
-        elif not goal.strip():
-            st.warning("Describe what you want to walk away with — that's how the guide gets tailored.")
+        elif not context.strip():
+            st.warning("Share what you know — the richer your input, the more grounded the output.")
         else:
-            _run_session(skill, project, goal, team_size, time_box, extra, config)
+            _run_session(skill, project, context, extra, config)
 
     if st.button("← Pick a different tool"):
         go("landing")
         st.rerun()
 
 
-def _run_session(skill, project, goal, team_size, time_box, extra, config):
-    system = f"""You are an expert facilitator and product practitioner helping a team run the MITRE ITK "{skill['display_name']}" exercise.
+def _build_system_prompt(skill):
+    system = (
+        f"You are a MITRE ITK learning simulator.\n"
+        f"Run the {skill['display_name']} exercise end-to-end internally using the provided context.\n"
+        f"Do not ask follow-up questions.\n"
+        f"Make explicit assumptions when context is missing — label them clearly.\n\n"
+        f"MITRE ITK skill definition:\n\n{skill['content']}"
+    )
+    if skill.get("template"):
+        system += f"\n\nOutput template to fill in:\n\n{skill['template']}"
+    return system
 
-Generate a tailored, ready-to-use facilitation guide for this specific session — not a generic description of the tool. The facilitator has already read the skill documentation. Optimize for what they actually need to run the session well given their context.
 
-Full skill documentation for reference:
-
-{skill['content']}"""
-
-    context_lines = [
-        f"- Product / project: {project or 'Not specified'}",
-        f"- Session goal: {goal}",
-        f"- Team size: {team_size}",
-        f"- Time available: {time_box}",
-    ]
+def _build_user_prompt(skill, project, context, extra):
+    context_block = f"Product / project: {project or 'Not specified'}\n\n{context.strip()}"
     if extra.strip():
-        context_lines.append(f"- Additional context: {extra.strip()}")
+        context_block += f"\n\nAdditional context: {extra.strip()}"
 
-    user_msg = f"""I want to run a {skill['display_name']} session.
+    return (
+        f"Context:\n{context_block}\n\n"
+        f"Run the {skill['display_name']} exercise as a worked example and return markdown "
+        f"with exactly these H2 sections in this order:\n\n"
+        f"## Filled Template\n"
+        f"The completed {skill['display_name']} artifact. Use the MITRE ITK template structure. "
+        f"Fill every field with specific content derived from the context — no placeholders.\n\n"
+        f"## Steps and Transformations\n"
+        f"Number each step from the {skill['display_name']} process. For each step: "
+        f"what input was used, what reasoning happened, what output was produced.\n\n"
+        f"## Assumptions Made\n"
+        f"List every assumption you introduced where the context was insufficient. "
+        f"Flag which assumptions most need validation."
+    )
 
-{chr(10).join(context_lines)}
 
-Please generate a tailored facilitation guide structured as:
+def _parse_sections(text):
+    sections = {}
+    current = "__preamble__"
+    lines = []
+    for line in text.splitlines():
+        if line.startswith("## "):
+            sections[current] = "\n".join(lines).strip()
+            current = line[3:].strip()
+            lines = []
+        else:
+            lines.append(line)
+    sections[current] = "\n".join(lines).strip()
+    return sections
 
-1. **Opening framing** — 1–2 sentences to read aloud that set context for the team, specific to our project and goal
-2. **Step-by-step instructions** — adapted to our team size and time box; cut or compress steps that won't fit; flag which steps are highest-leverage if time is short
-3. **Watch-outs for our situation** — 2–3 specific failure modes given what I've told you about our context, not generic warnings
-4. **What "done" looks like** — the concrete deliverable or decision the team should be able to make at the end of this session
 
-Be specific and direct. Optimize for someone running this in {time_box} with {team_size}."""
+def _run_session(skill, project, context, extra, config):
+    system = _build_system_prompt(skill)
+    user_msg = _build_user_prompt(skill, project, context, extra)
 
     st.divider()
-    st.subheader("Facilitation guide")
 
-    output = st.empty()
+    output_placeholder = st.empty()
     text_so_far = ""
 
-    with st.spinner("Generating..."):
+    with st.spinner(f"Running {skill['display_name']}..."):
         try:
             for chunk in stream_response(config, system, user_msg):
                 text_so_far += chunk
-                output.markdown(text_so_far)
+                output_placeholder.markdown(text_so_far)
         except anthropic.AuthenticationError:
-            st.error("Anthropic authentication failed — check your API key in the sidebar.")
+            st.error("Authentication failed — check your API key.")
+            return
         except Exception as e:
             st.error(f"Error: {e}")
+            return
+
+    output_placeholder.empty()
+
+    sections = _parse_sections(text_so_far)
+    artifact  = sections.get("Filled Template", "")
+    steps     = sections.get("Steps and Transformations", "")
+    assumptions = sections.get("Assumptions Made", "")
+
+    tab1, tab2, tab3 = st.tabs(["Filled Template", "Steps and Transformations", "Assumptions Made"])
+    with tab1:
+        st.markdown(artifact if artifact else text_so_far)
+    with tab2:
+        st.markdown(steps or "_No steps section returned._")
+    with tab3:
+        st.markdown(assumptions or "_No assumptions section returned._")
 
 
 # ---------------------------------------------------------------------------
