@@ -217,13 +217,20 @@ Use these when the situation is unambiguous and the ADL isn't needed:
 
 ## Updating or Extending Skills
 
-### Adding a new skill
+### Adding a new skill or updating an existing one
 
-Follow the SKILL.md format exactly. Required sections: What Is It, Why Use It, When to Use It, How to Do It, Key Concepts, PM Applications, Benefits, Common Pitfalls, Assets, Metadata. The `best_for` frontmatter field should have 3–5 specific PM scenarios.
+See [`docs/adding-a-new-skill.md`](docs/adding-a-new-skill.md) for the full workflow, including quality bar for SKILL.md, template adornment, and example file structure.
 
-### Enriching existing skills
+Quick reference:
 
-Run `scripts/enrich.py --slug <slug>` to call Claude API and add Key Concepts, PM Applications, and Common Pitfalls. The script skips files already containing `## Key Concepts`.
+```bash
+python3 scripts/scrape.py --slug <slug>           # 1. scrape source page + download assets
+python3 scripts/enrich.py --slug <slug>           # 2. enrich SKILL.md via Claude API
+python3 scripts/generate-templates.py --slug <slug>  # 3. generate template.md skeleton
+# 4. manually adorn template.md + write examples/sample.md
+python3 scripts/generate-skills.py --slug <slug>  # 5. generate claude-skills/itk-*.md
+python3 scripts/generate-catalog.py              # 6. update catalog/INDEX.md
+```
 
 ### Regenerating the catalog index
 

@@ -126,6 +126,15 @@ Most PDF worksheets are image-based (designed for printing and writing on), so t
 
 ---
 
+## Docs
+
+| Document | Purpose |
+|---|---|
+| [Adding a New Skill](docs/adding-a-new-skill.md) | How to add a new ITK tool or update an existing one — SKILL.md, template, examples, and Claude skill file |
+| [Meet the MITRE ITK Skills Repo](docs/Meet%20the%20MITRE%20ITK%20Skills%20Repo.md) | Introductory blog post: who this library is for, why it exists, and how to use it |
+
+---
+
 ## Using as Claude Code Skills
 
 The `claude-skills/` directory contains 27 ready-to-use [Claude Code](https://claude.ai/code) skill files — one per tool, prefixed with `itk-`. Each file loads the tool's best-fit scenarios, key concepts, and common pitfalls directly into a Claude session, with built-in guidance for running the Adaptive Decision Ladder or skipping it when you already know what you need.
