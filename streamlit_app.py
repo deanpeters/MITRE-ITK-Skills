@@ -71,6 +71,23 @@ def llm_ready(config):
     return bool(config["key"].strip())
 
 
+def _check_llm_ready(config):
+    """Show error and return False if not ready. Returns True if ready."""
+    if llm_ready(config):
+        return True
+    if is_deployed():
+        st.error("Something went wrong — please try again later.")
+    else:
+        provider = config["provider"]
+        if provider == "Anthropic":
+            st.error("ANTHROPIC_API_KEY not found. Set it in your environment and restart the app.")
+        elif provider == "OpenAI":
+            st.error("OPENAI_API_KEY not found. Set it in your environment and restart the app.")
+        else:
+            st.error("Enter a model name for your local endpoint.")
+    return False
+
+
 def stream_response(config, system, user_msg):
     """Unified streaming generator. Yields text chunks across all providers."""
     provider = config["provider"]
@@ -291,6 +308,9 @@ def render_sidebar():
             go("landing")
             st.rerun()
 
+        st.divider()
+        _render_context_panel()
+
         if not is_deployed():
             st.divider()
             _render_provider_config()
@@ -298,6 +318,34 @@ def render_sidebar():
         st.divider()
         st.caption("[MITRE ITK](https://itk.mitre.org) · CC BY-NC-SA 4.0")
         st.caption("[GitHub](https://github.com/deanpeters/MITRE-ITK-Skills)")
+
+
+def _render_context_panel():
+    st.caption("**Your context**")
+    st.caption("Set once. Used by every skill.")
+
+    project = st.text_input(
+        "Product or project",
+        placeholder="e.g., DataBridge v2.0",
+        value=st.session_state.get("saved_project", ""),
+        key="_ctx_project",
+    )
+    st.session_state.saved_project = project
+
+    context = st.text_area(
+        "What you know",
+        placeholder=(
+            "Users, research, pain points, observations — "
+            "anything that helps the skill produce useful output."
+        ),
+        value=st.session_state.get("saved_context", ""),
+        key="_ctx_context",
+        height=140,
+    )
+    st.session_state.saved_context = context
+
+    if project or context:
+        st.success("Context saved — all skills will use this.")
 
 
 def _render_provider_config():
@@ -614,52 +662,66 @@ def page_skill_runner(skills):
                 st.markdown(f"- {item}")
 
     st.divider()
-    st.subheader("Tell me about your situation")
-    st.caption("The more context you provide, the more useful the output.")
 
-    with st.form("session_form"):
-        project = st.text_input(
-            "Product or project",
-            placeholder="e.g., DataBridge v2.0 — federal analytics platform",
-        )
-        context = st.text_area(
-            "What do you know? Share your raw inputs.",
-            placeholder=(
-                "e.g., We're building for federal analysts who produce weekly intelligence briefs. "
-                "From interviews: they spend 2+ hours manually reconciling data exports. "
-                "Key pain: no audit trail when challenged by supervisors. "
-                "We have 14 interviews and a support ticket analysis."
-            ),
-            height=160,
-        )
-        extra = st.text_area(
-            "Anything else I should know? (optional)",
-            placeholder=(
-                "e.g., Government client, strict procurement rules. "
-                "Several stakeholders are skeptical of the initiative."
-            ),
-            height=80,
-        )
-        submitted = st.form_submit_button(f"Run {skill['display_name']} →", type="primary")
+    saved_project = st.session_state.get("saved_project", "").strip()
+    saved_context = st.session_state.get("saved_context", "").strip()
+    has_saved = bool(saved_project or saved_context)
 
-    if submitted:
-        config = get_llm_config()
-        if not llm_ready(config):
-            if is_deployed():
-                st.error("Something went wrong — please try again later.")
+    if has_saved:
+        st.subheader("Ready to run")
+        with st.expander("Context being used", expanded=False):
+            if saved_project:
+                st.markdown(f"**Project:** {saved_project}")
+            if saved_context:
+                st.markdown(saved_context)
+            st.caption("Edit in the sidebar to change.")
+
+        col_run, col_clear = st.columns([3, 1])
+        with col_run:
+            quick_run = st.button(
+                f"Run {skill['display_name']} with your context →",
+                type="primary",
+                use_container_width=True,
+            )
+        with col_clear:
+            if st.button("Clear result", use_container_width=True):
+                st.session_state.pop("runner_result", None)
+                st.rerun()
+
+        if quick_run:
+            config = get_llm_config()
+            if not _check_llm_ready(config):
+                pass
             else:
-                provider = config["provider"]
-                if provider == "Anthropic":
-                    st.error("ANTHROPIC_API_KEY not found. Set it in your environment and restart the app.")
-                elif provider == "OpenAI":
-                    st.error("OPENAI_API_KEY not found. Set it in your environment and restart the app.")
+                st.session_state.pop("runner_result", None)
+                _run_session(skill, saved_project, saved_context, "", config)
+
+    else:
+        st.caption("Set your context in the sidebar — or enter it below.")
+
+        with st.form("session_form"):
+            project = st.text_input(
+                "Product or project",
+                placeholder="e.g., DataBridge v2.0 — federal analytics platform",
+            )
+            context = st.text_area(
+                "What do you know?",
+                placeholder=(
+                    "Users, research, pain points, observations — "
+                    "paste in everything you have."
+                ),
+                height=160,
+            )
+            submitted = st.form_submit_button(f"Run {skill['display_name']} →", type="primary")
+
+        if submitted:
+            config = get_llm_config()
+            if _check_llm_ready(config):
+                if not context.strip():
+                    st.warning("Share what you know — the richer the input, the better the output.")
                 else:
-                    st.error("Enter a model name for your local endpoint.")
-        elif not context.strip():
-            st.warning("Share what you know — the richer your input, the more grounded the output.")
-        else:
-            st.session_state.pop("runner_result", None)
-            _run_session(skill, project, context, extra, config)
+                    st.session_state.pop("runner_result", None)
+                    _run_session(skill, project, context, "", config)
 
     # Render persisted result (survives reruns from tab clicks etc.)
     result = st.session_state.get("runner_result")
