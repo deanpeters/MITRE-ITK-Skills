@@ -15,53 +15,18 @@ Usage:
 """
 
 import argparse
-import re
 import zipfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
 SKILLS_DIR = REPO_ROOT / "skills"
-CLAUDE_SKILLS_DIR = REPO_ROOT / "claude-skills"
 OUTPUT_DIR = REPO_ROOT / "dist" / "zips"
 
 
-def normalize(s: str) -> str:
-    """Lowercase, strip punctuation, collapse whitespace — for fuzzy name matching."""
-    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", "", s.lower())).strip()
-
-
-def build_alias_map() -> dict[str, Path]:
-    """Map normalized tool name → claude-skills file path."""
-    mapping: dict[str, Path] = {}
-    for f in CLAUDE_SKILLS_DIR.glob("itk-*.md"):
-        for line in f.read_text().splitlines():
-            if line.startswith("# ITK:"):
-                title = line.removeprefix("# ITK:").strip()
-                mapping[normalize(title)] = f
-                break
-    return mapping
-
-
-def get_skill_h1(skill_dir: Path) -> str:
-    """Return the H1 title from SKILL.md (first # line)."""
-    for line in (skill_dir / "SKILL.md").read_text().splitlines():
-        if line.startswith("# "):
-            return line.removeprefix("# ").strip()
-    return ""
-
-
-def find_claude_skill(slug: str, skill_dir: Path, alias_map: dict[str, Path]) -> Path | None:
-    # Try exact filename match first
-    candidate = CLAUDE_SKILLS_DIR / f"itk-{slug}.md"
-    if candidate.exists():
-        return candidate
-    # Fuzzy match on normalized tool name
-    title = get_skill_h1(skill_dir)
-    if title:
-        key = normalize(title)
-        if key in alias_map:
-            return alias_map[key]
-    return None
+def find_claude_skill(skill_dir: Path) -> Path | None:
+    """Find the itk-*.md file inside the skill directory."""
+    matches = list(skill_dir.glob("itk-*.md"))
+    return matches[0] if matches else None
 
 
 def zip_skill(slug: str, dry_run: bool = False) -> bool:
@@ -70,8 +35,7 @@ def zip_skill(slug: str, dry_run: bool = False) -> bool:
         print(f"  SKIP  {slug} — directory not found")
         return False
 
-    alias_map = build_alias_map()
-    claude_skill = find_claude_skill(slug, skill_dir, alias_map)
+    claude_skill = find_claude_skill(skill_dir)
 
     zip_path = OUTPUT_DIR / f"itk-{slug}.zip"
     entries: list[tuple[Path, str]] = []  # (src_path, arcname)

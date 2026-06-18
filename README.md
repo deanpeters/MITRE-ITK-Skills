@@ -187,13 +187,13 @@ Then add the repo path to your Claude Code plugin sources in `~/.claude/settings
 git clone https://github.com/deanpeters/MITRE-ITK-Skills.git
 
 # Symlink all 27 skills into your Claude Code skills directory
-ln -s "$(pwd)/MITRE-ITK-Skills/claude-skills/"itk-*.md ~/.claude/skills/
+find MITRE-ITK-Skills/skills -name "itk-*.md" -exec ln -s "$(pwd)/{}" ~/.claude/skills/ \;
 ```
 
-Or copy individual skills you want:
+Or copy an individual skill:
 
 ```bash
-cp MITRE-ITK-Skills/claude-skills/itk-premortem.md ~/.claude/skills/
+cp MITRE-ITK-Skills/skills/premortem/itk-premortem.md ~/.claude/skills/
 ```
 
 ### Invoke

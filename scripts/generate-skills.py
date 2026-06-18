@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate claude-skills/ directory with itk-*.md skill invocation files.
+Generate itk-<alias>.md Claude Code skill files inside each skills/<slug>/ directory.
 
 Each file is a Claude Code skill — instructional content Claude loads when
 the user invokes /itk-<alias>. Content is derived from SKILL.md frontmatter
@@ -17,7 +17,6 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
 SKILLS_DIR = BASE_DIR / "skills"
-CLAUDE_SKILLS_DIR = BASE_DIR / "claude-skills"
 
 TOOLS = [
     "bodystorming",
@@ -192,20 +191,20 @@ def process_slug(slug, dry_run=False):
         return False
 
     alias = skill_alias(slug)
-    out_path = CLAUDE_SKILLS_DIR / f"itk-{alias}.md"
+    out_path = SKILLS_DIR / slug / f"itk-{alias}.md"
 
     if dry_run:
-        print(f"  DRY RUN → claude-skills/itk-{alias}.md")
+        print(f"  DRY RUN → skills/{slug}/itk-{alias}.md")
         return True
 
     content = generate_skill_file(slug)
     out_path.write_text(content)
-    print(f"  → claude-skills/itk-{alias}.md")
+    print(f"  → skills/{slug}/itk-{alias}.md")
     return True
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate claude-skills/ from SKILL.md files")
+    parser = argparse.ArgumentParser(description="Generate itk-*.md skill files inside skills/<slug>/")
     parser.add_argument("--slug", help="Process only this tool slug")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -215,10 +214,8 @@ def main():
         print(f"Known slugs: {', '.join(TOOLS)}")
         sys.exit(1)
 
-    CLAUDE_SKILLS_DIR.mkdir(exist_ok=True)
-
     slugs = [args.slug] if args.slug else TOOLS
-    print(f"Generating {len(slugs)} skill file(s) in claude-skills/...")
+    print(f"Generating {len(slugs)} skill file(s) into skills/<slug>/...")
 
     successes = 0
     for slug in slugs:
@@ -226,7 +223,7 @@ def main():
         if process_slug(slug, dry_run=args.dry_run):
             successes += 1
 
-    print(f"\nDone. {successes}/{len(slugs)} skill files written to claude-skills/")
+    print(f"\nDone. {successes}/{len(slugs)} skill files written")
 
 
 if __name__ == "__main__":

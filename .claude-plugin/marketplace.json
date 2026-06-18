@@ -1,223 +1,411 @@
 {
   "name": "mitre-itk",
   "owner": "deanpeters",
-  "description": "27 MITRE Innovation Toolkit skills adapted for product practitioners — systems thinking, HCI-rooted design, and stakeholder work across 5 innovation phases.",
+  "description": "27 MITRE Innovation Toolkit skills adapted for product practitioners \u2014 systems thinking, HCI-rooted design, and stakeholder work across 5 innovation phases.",
   "repository": "https://github.com/deanpeters/MITRE-ITK-Skills",
   "plugins": [
     {
       "name": "itk-community-map",
-      "source": "./claude-skills/itk-community-map.md",
+      "source": "./skills/community-map/itk-community-map.md",
       "description": "A fast way to capture and prioritize stakeholders. Best for workshop openers and rapid stakeholder discovery.",
       "category": "scope",
-      "tags": ["itk", "mitre", "scope", "stakeholders", "facilitation"],
+      "tags": [
+        "itk",
+        "mitre",
+        "scope",
+        "stakeholders",
+        "facilitation"
+      ],
       "strict": false
     },
     {
       "name": "itk-culture-building-canvas",
-      "source": "./claude-skills/itk-culture-building-canvas.md",
+      "source": "./skills/culture-building-canvas/itk-culture-building-canvas.md",
       "description": "A framework based on influence channels that shape and define an organization's culture. Best for team formation, org design, and culture change initiatives.",
       "category": "scope",
-      "tags": ["itk", "mitre", "scope", "culture", "organization", "leadership"],
+      "tags": [
+        "itk",
+        "mitre",
+        "scope",
+        "culture",
+        "organization",
+        "leadership"
+      ],
       "strict": false
     },
     {
       "name": "itk-stakeholder-quickstart",
-      "source": "./claude-skills/itk-stakeholder-quickstart.md",
+      "source": "./skills/quickstart-stakeholder-engagement-canvas/itk-stakeholder-quickstart.md",
       "description": "A quick way to begin developing a plan for effectively engaging a stakeholder. Best for individual stakeholder prep before key meetings.",
       "category": "scope",
-      "tags": ["itk", "mitre", "scope", "stakeholders", "engagement", "planning"],
+      "tags": [
+        "itk",
+        "mitre",
+        "scope",
+        "stakeholders",
+        "engagement",
+        "planning"
+      ],
       "strict": false
     },
     {
       "name": "itk-stakeholder-identify",
-      "source": "./claude-skills/itk-stakeholder-identify.md",
+      "source": "./skills/stakeholder-identification-canvas/itk-stakeholder-identify.md",
       "description": "Ideate a more comprehensive and representative set of relevant stakeholders to your project. Best for discovery kickoffs and initiative scoping.",
       "category": "scope",
-      "tags": ["itk", "mitre", "scope", "stakeholders", "discovery", "inclusion"],
+      "tags": [
+        "itk",
+        "mitre",
+        "scope",
+        "stakeholders",
+        "discovery",
+        "inclusion"
+      ],
       "strict": false
     },
     {
       "name": "itk-stakeholder-map",
-      "source": "./claude-skills/itk-stakeholder-map.md",
+      "source": "./skills/stakeholder-map-and-matrix/itk-stakeholder-map.md",
       "description": "Categorize stakeholders by key variables (interest, influence, impact) and build an actionable engagement plan. Best for stakeholder prioritization and migration planning.",
       "category": "scope",
-      "tags": ["itk", "mitre", "scope", "stakeholders", "prioritization", "power-interest"],
+      "tags": [
+        "itk",
+        "mitre",
+        "scope",
+        "stakeholders",
+        "prioritization",
+        "power-interest"
+      ],
       "strict": false
     },
     {
       "name": "itk-stakeholder-power",
-      "source": "./claude-skills/itk-stakeholder-power.md",
+      "source": "./skills/stakeholder-power-categories/itk-stakeholder-power.md",
       "description": "Quickly categorize and prioritize which stakeholders to engage based on power and impact. Best for navigating org politics and elevating underrepresented voices.",
       "category": "scope",
-      "tags": ["itk", "mitre", "scope", "stakeholders", "power-dynamics", "equity"],
+      "tags": [
+        "itk",
+        "mitre",
+        "scope",
+        "stakeholders",
+        "power-dynamics",
+        "equity"
+      ],
       "strict": false
     },
     {
       "name": "itk-system-map",
-      "source": "./claude-skills/itk-system-map.md",
+      "source": "./skills/system-map/itk-system-map.md",
       "description": "Captures the key roles, relationships, and dynamics of a system to enhance understanding of the big picture. Best for complex multi-stakeholder products and systems thinking.",
       "category": "scope",
-      "tags": ["itk", "mitre", "scope", "systems-thinking", "complexity", "relationships"],
+      "tags": [
+        "itk",
+        "mitre",
+        "scope",
+        "systems-thinking",
+        "complexity",
+        "relationships"
+      ],
       "strict": false
     },
     {
       "name": "itk-mission-vision",
-      "source": "./claude-skills/itk-mission-vision.md",
+      "source": "./skills/mission-and-vision-canvas/itk-mission-vision.md",
       "description": "Develop clear statements about your organization's future aspirations and present activities. Best for team alignment at the start of a quarter or initiative.",
       "category": "define",
-      "tags": ["itk", "mitre", "define", "strategy", "alignment", "okrs"],
+      "tags": [
+        "itk",
+        "mitre",
+        "define",
+        "strategy",
+        "alignment",
+        "okrs"
+      ],
       "strict": false
     },
     {
       "name": "itk-premortem",
-      "source": "./claude-skills/itk-premortem.md",
+      "source": "./skills/premortem/itk-premortem.md",
       "description": "Imagine a future failure to uncover risks and strengthen plans before committing. Best for stress-testing OKRs, roadmaps, and launch plans.",
       "category": "define",
-      "tags": ["itk", "mitre", "define", "risk", "planning", "strategy"],
+      "tags": [
+        "itk",
+        "mitre",
+        "define",
+        "risk",
+        "planning",
+        "strategy"
+      ],
       "strict": false
     },
     {
       "name": "itk-problem-framing",
-      "source": "./claude-skills/itk-problem-framing.md",
+      "source": "./skills/problem-framing/itk-problem-framing.md",
       "description": "Explore a problem space and formulate a robust problem statement to ensure you're solving the right problem. Best for discovery kickoffs and PRD problem sections.",
       "category": "define",
-      "tags": ["itk", "mitre", "define", "problem-statement", "discovery", "framing"],
+      "tags": [
+        "itk",
+        "mitre",
+        "define",
+        "problem-statement",
+        "discovery",
+        "framing"
+      ],
       "strict": false
     },
     {
       "name": "itk-card-sorting",
-      "source": "./claude-skills/itk-card-sorting.md",
+      "source": "./skills/card-sorting/itk-card-sorting.md",
       "description": "Participants communicate their mental model of how they think about a set of information, creating logical structure. Best for IA work, feature naming, and navigation design.",
       "category": "understand",
-      "tags": ["itk", "mitre", "understand", "user-research", "information-architecture", "mental-models"],
+      "tags": [
+        "itk",
+        "mitre",
+        "understand",
+        "user-research",
+        "information-architecture",
+        "mental-models"
+      ],
       "strict": false
     },
     {
       "name": "itk-journey-mapping",
-      "source": "./claude-skills/itk-journey-mapping.md",
+      "source": "./skills/journey-mapping/itk-journey-mapping.md",
       "description": "Visually synthesize a user's end-to-end experience through actions, pain points, wins, and opportunities. Best for discovery synthesis and roadmap prioritization.",
       "category": "understand",
-      "tags": ["itk", "mitre", "understand", "user-research", "experience", "journey"],
+      "tags": [
+        "itk",
+        "mitre",
+        "understand",
+        "user-research",
+        "experience",
+        "journey"
+      ],
       "strict": false
     },
     {
       "name": "itk-painstorming",
-      "source": "./claude-skills/itk-painstorming.md",
+      "source": "./skills/painstorming/itk-painstorming.md",
       "description": "Structured method for gathering user insights using Persona, Activities, Insights, and Needs (PAIN). Best for early-stage discovery and user story development.",
       "category": "understand",
-      "tags": ["itk", "mitre", "understand", "user-research", "pain-points", "needs"],
+      "tags": [
+        "itk",
+        "mitre",
+        "understand",
+        "user-research",
+        "pain-points",
+        "needs"
+      ],
       "strict": false
     },
     {
       "name": "itk-personas",
-      "source": "./claude-skills/itk-personas.md",
+      "source": "./skills/personas/itk-personas.md",
       "description": "A descriptive model of a person used to help a team define and understand the needs of its customer. Best for aligning cross-functional teams on who the product actually serves.",
       "category": "understand",
-      "tags": ["itk", "mitre", "understand", "user-research", "personas", "empathy"],
+      "tags": [
+        "itk",
+        "mitre",
+        "understand",
+        "user-research",
+        "personas",
+        "empathy"
+      ],
       "strict": false
     },
     {
       "name": "itk-service-blueprint",
-      "source": "./claude-skills/itk-service-blueprint.md",
+      "source": "./skills/service-blueprint/itk-service-blueprint.md",
       "description": "Visualize a service by connecting the user experience frontstage to what happens backstage. Best for identifying handoff failures and cross-team dependencies.",
       "category": "understand",
-      "tags": ["itk", "mitre", "understand", "service-design", "experience", "backstage"],
+      "tags": [
+        "itk",
+        "mitre",
+        "understand",
+        "service-design",
+        "experience",
+        "backstage"
+      ],
       "strict": false
     },
     {
       "name": "itk-storyboarding",
-      "source": "./claude-skills/itk-storyboarding.md",
+      "source": "./skills/storyboarding/itk-storyboarding.md",
       "description": "Add a human element to design and data analysis activities through narrative and visual storytelling. Best for communicating user context to stakeholders and engineering.",
       "category": "understand",
-      "tags": ["itk", "mitre", "understand", "storytelling", "empathy", "communication"],
+      "tags": [
+        "itk",
+        "mitre",
+        "understand",
+        "storytelling",
+        "empathy",
+        "communication"
+      ],
       "strict": false
     },
     {
       "name": "itk-value-prop",
-      "source": "./claude-skills/itk-value-prop.md",
+      "source": "./skills/value-proposition-canvas/itk-value-prop.md",
       "description": "Map user profiles (jobs, pains, gains) to product values (gain creators, pain relievers) to ensure product-market fit. Best for PRD value sections and positioning work.",
       "category": "understand",
-      "tags": ["itk", "mitre", "understand", "value-proposition", "product-market-fit", "positioning"],
+      "tags": [
+        "itk",
+        "mitre",
+        "understand",
+        "value-proposition",
+        "product-market-fit",
+        "positioning"
+      ],
       "strict": false
     },
     {
       "name": "itk-bodystorming",
-      "source": "./claude-skills/itk-bodystorming.md",
+      "source": "./skills/bodystorming/itk-bodystorming.md",
       "description": "Physical brainstorming where participants role-play and mimic interaction with a product or experience. Best for interaction design and physical/spatial product work.",
       "category": "generate",
-      "tags": ["itk", "mitre", "generate", "brainstorming", "ideation", "embodied"],
+      "tags": [
+        "itk",
+        "mitre",
+        "generate",
+        "brainstorming",
+        "ideation",
+        "embodied"
+      ],
       "strict": false
     },
     {
       "name": "itk-lotus-blossom",
-      "source": "./claude-skills/itk-lotus-blossom.md",
+      "source": "./skills/lotus-blossom/itk-lotus-blossom.md",
       "description": "Focus brainstorming using a structured, visual grid that pushes teams to generate ideas across every cell. Best for deep ideation on a focused problem.",
       "category": "generate",
-      "tags": ["itk", "mitre", "generate", "brainstorming", "ideation", "structured"],
+      "tags": [
+        "itk",
+        "mitre",
+        "generate",
+        "brainstorming",
+        "ideation",
+        "structured"
+      ],
       "strict": false
     },
     {
       "name": "itk-mindmapping",
-      "source": "./claude-skills/itk-mindmapping.md",
+      "source": "./skills/mindmapping/itk-mindmapping.md",
       "description": "Generate insights into relationships between concepts in a flexible, visual way. Best for early exploration and surfacing unexpected connections.",
       "category": "generate",
-      "tags": ["itk", "mitre", "generate", "brainstorming", "visualization", "relationships"],
+      "tags": [
+        "itk",
+        "mitre",
+        "generate",
+        "brainstorming",
+        "visualization",
+        "relationships"
+      ],
       "strict": false
     },
     {
       "name": "itk-triz-prism",
-      "source": "./claude-skills/itk-triz-prism.md",
+      "source": "./skills/triz-prism/itk-triz-prism.md",
       "description": "Use known solutions from other domains to find new solutions to difficult problems through analogical reasoning. Best for stuck teams and novel constraint problems.",
       "category": "generate",
-      "tags": ["itk", "mitre", "generate", "problem-solving", "innovation", "triz"],
+      "tags": [
+        "itk",
+        "mitre",
+        "generate",
+        "problem-solving",
+        "innovation",
+        "triz"
+      ],
       "strict": false
     },
     {
       "name": "itk-prototyping",
-      "source": "./claude-skills/itk-prototyping.md",
+      "source": "./skills/prototyping/itk-prototyping.md",
       "description": "Develop an early version of a product to convey look and feel; built quickly to test hypotheses before committing. Best for de-risking features before sprint commitment.",
       "category": "evaluate",
-      "tags": ["itk", "mitre", "evaluate", "prototyping", "testing", "hypothesis"],
+      "tags": [
+        "itk",
+        "mitre",
+        "evaluate",
+        "prototyping",
+        "testing",
+        "hypothesis"
+      ],
       "strict": false
     },
     {
       "name": "itk-retro-rundown",
-      "source": "./claude-skills/itk-retro-rundown.md",
+      "source": "./skills/retro-rundown/itk-retro-rundown.md",
       "description": "Structured, facilitated team reflection comparing expected vs. actual outcomes and identifying concrete improvements. Best for sprint retrospectives and post-launch reviews.",
       "category": "evaluate",
-      "tags": ["itk", "mitre", "evaluate", "retrospective", "agile", "continuous-improvement"],
+      "tags": [
+        "itk",
+        "mitre",
+        "evaluate",
+        "retrospective",
+        "agile",
+        "continuous-improvement"
+      ],
       "strict": false
     },
     {
       "name": "itk-rose-bud-thorn",
-      "source": "./claude-skills/itk-rose-bud-thorn.md",
+      "source": "./skills/rose-bud-thorn/itk-rose-bud-thorn.md",
       "description": "Visually categorize positive (rose), potential (bud), and negative (thorn) aspects of a topic. Best for lightweight retrospectives and mid-sprint check-ins.",
       "category": "evaluate",
-      "tags": ["itk", "mitre", "evaluate", "retrospective", "reflection", "facilitation"],
+      "tags": [
+        "itk",
+        "mitre",
+        "evaluate",
+        "retrospective",
+        "reflection",
+        "facilitation"
+      ],
       "strict": false
     },
     {
       "name": "itk-simplicity-cycle",
-      "source": "./claude-skills/itk-simplicity-cycle.md",
-      "description": "Visual vocabulary for discussing complexity vs. value in a design — helps teams assess whether adding or removing elements improves the product. Best for scope management and design reviews.",
+      "source": "./skills/simplicity-cycle/itk-simplicity-cycle.md",
+      "description": "Visual vocabulary for discussing complexity vs. value in a design \u2014 helps teams assess whether adding or removing elements improves the product. Best for scope management and design reviews.",
       "category": "evaluate",
-      "tags": ["itk", "mitre", "evaluate", "complexity", "design", "simplicity"],
+      "tags": [
+        "itk",
+        "mitre",
+        "evaluate",
+        "complexity",
+        "design",
+        "simplicity"
+      ],
       "strict": false
     },
     {
       "name": "itk-stormdraining",
-      "source": "./claude-skills/itk-stormdraining.md",
+      "source": "./skills/stormdraining/itk-stormdraining.md",
       "description": "Reduce a large collection of ideas to the most valuable or promising. The inverse of brainstorming. Best for converging after ideation sessions.",
       "category": "evaluate",
-      "tags": ["itk", "mitre", "evaluate", "prioritization", "convergence", "ideation"],
+      "tags": [
+        "itk",
+        "mitre",
+        "evaluate",
+        "prioritization",
+        "convergence",
+        "ideation"
+      ],
       "strict": false
     },
     {
       "name": "itk-trimming",
-      "source": "./claude-skills/itk-trimming.md",
+      "source": "./skills/trimming/itk-trimming.md",
       "description": "Iteratively remove unnecessary elements from a design using a structured approach to reducing complexity. Best for scope cuts, feature pruning, and simplification sprints.",
       "category": "evaluate",
-      "tags": ["itk", "mitre", "evaluate", "simplification", "design", "scope"],
+      "tags": [
+        "itk",
+        "mitre",
+        "evaluate",
+        "simplification",
+        "design",
+        "scope"
+      ],
       "strict": false
     }
   ]
