@@ -139,7 +139,23 @@ Most PDF worksheets are image-based (designed for printing and writing on), so t
 
 The `claude-skills/` directory contains 27 ready-to-use [Claude Code](https://claude.ai/code) skill files — one per tool, prefixed with `itk-`. Each file loads the tool's best-fit scenarios, key concepts, and common pitfalls directly into a Claude session, with built-in guidance for running the Adaptive Decision Ladder or skipping it when you already know what you need.
 
-### Install
+### Install via plugin
+
+This repo ships a `.claude-plugin/` directory that registers all 27 skills as a Claude Code plugin. Clone the repo and point Claude Code to it:
+
+```bash
+git clone https://github.com/deanpeters/MITRE-ITK-Skills.git
+```
+
+Then add the repo path to your Claude Code plugin sources in `~/.claude/settings.json`:
+
+```json
+{
+  "plugins": ["~/path/to/MITRE-ITK-Skills"]
+}
+```
+
+### Install via symlink
 
 ```bash
 # Clone the repo

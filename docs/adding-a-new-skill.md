@@ -128,6 +128,8 @@ This writes `claude-skills/itk-<alias>.md`. If the slug is long (more than ~30 c
 
 Review the generated file: confirm the best_for scenarios and Key Concepts pulled in cleanly and the "How to Help" section reads correctly.
 
+Then add a corresponding entry to `.claude-plugin/marketplace.json` — copy an existing entry and update `name`, `source`, `description`, `category`, and `tags`. The name must match the `itk-<alias>` pattern; the source path is `./claude-skills/itk-<alias>.md`.
+
 ---
 
 ### Step 6 — Regenerate the catalog
@@ -228,4 +230,8 @@ skills/<slug>/
 
 claude-skills/
   itk-<alias>.md        ← Claude Code skill invocation file
+
+.claude-plugin/
+  plugin.json           ← plugin metadata (name, version, author)
+  marketplace.json      ← one entry per skill; update when adding new skills
 ```
