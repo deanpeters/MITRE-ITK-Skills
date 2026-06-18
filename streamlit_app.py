@@ -50,17 +50,16 @@ def get_llm_config():
             "model": "claude-opus-4-8",
             "base_url": None,
         }
-    provider = st.session_state.get("llm_provider", "Anthropic")
-    if provider == "Anthropic":
-        key = os.environ.get("ANTHROPIC_API_KEY", "")
-    elif provider == "OpenAI":
-        key = os.environ.get("OPENAI_API_KEY", "")
-    else:
-        key = "ollama"
+    # Ensure defaults exist in session state (first load before sidebar renders)
+    provider = st.session_state.get("llm_provider") or "Anthropic"
+    model    = st.session_state.get("llm_model")    or ANTHROPIC_MODELS[0]
+    key = (os.environ.get("ANTHROPIC_API_KEY", "") if provider == "Anthropic"
+           else os.environ.get("OPENAI_API_KEY", "") if provider == "OpenAI"
+           else "ollama")
     return {
         "provider": provider,
         "key":      key,
-        "model":    st.session_state.get("llm_model", ANTHROPIC_MODELS[0]),
+        "model":    model,
         "base_url": st.session_state.get("llm_base_url", "http://localhost:11434/v1"),
     }
 
@@ -324,72 +323,55 @@ def _render_context_panel():
     st.caption("**Your context**")
     st.caption("Set once. Used by every skill.")
 
-    project = st.text_input(
+    st.text_input(
         "Product or project",
         placeholder="e.g., DataBridge v2.0",
-        value=st.session_state.get("saved_project", ""),
-        key="_ctx_project",
+        key="saved_project",
     )
-    st.session_state.saved_project = project
-
-    context = st.text_area(
+    st.text_area(
         "What you know",
         placeholder=(
             "Users, research, pain points, observations — "
-            "anything that helps the skill produce useful output."
+            "paste in everything you have."
         ),
-        value=st.session_state.get("saved_context", ""),
-        key="_ctx_context",
+        key="saved_context",
         height=140,
     )
-    st.session_state.saved_context = context
 
-    if project or context:
-        st.success("Context saved — all skills will use this.")
+    if st.session_state.get("saved_project") or st.session_state.get("saved_context"):
+        st.success("Context ready — pick any skill and run it.")
 
 
 def _render_provider_config():
     st.caption("**LLM provider**")
 
-    provider = st.selectbox(
-        "Provider",
-        PROVIDERS,
-        index=PROVIDERS.index(st.session_state.get("llm_provider", "Anthropic")),
-        label_visibility="collapsed",
-        key="_provider_select",
-    )
-    st.session_state.llm_provider = provider
+    # Use key="llm_provider" so the value persists directly in session state
+    st.selectbox("Provider", PROVIDERS, key="llm_provider",
+                 label_visibility="collapsed")
+    provider = st.session_state.llm_provider
 
     if provider == "Anthropic":
-        model = st.selectbox("Model", ANTHROPIC_MODELS, key="_anthropic_model")
-        st.session_state.llm_model = model
+        cur = st.session_state.get("llm_model", ANTHROPIC_MODELS[0])
+        idx = ANTHROPIC_MODELS.index(cur) if cur in ANTHROPIC_MODELS else 0
+        st.selectbox("Model", ANTHROPIC_MODELS, index=idx, key="llm_model")
         if os.environ.get("ANTHROPIC_API_KEY"):
             st.success("ANTHROPIC_API_KEY detected")
         else:
             st.warning("Set ANTHROPIC_API_KEY in your environment")
 
     elif provider == "OpenAI":
-        model = st.selectbox("Model", OPENAI_MODELS, key="_openai_model")
-        st.session_state.llm_model = model
+        cur = st.session_state.get("llm_model", OPENAI_MODELS[0])
+        idx = OPENAI_MODELS.index(cur) if cur in OPENAI_MODELS else 0
+        st.selectbox("Model", OPENAI_MODELS, index=idx, key="llm_model")
         if os.environ.get("OPENAI_API_KEY"):
             st.success("OPENAI_API_KEY detected")
         else:
             st.warning("Set OPENAI_API_KEY in your environment")
 
     elif provider == "Local model":
-        base_url = st.text_input(
-            "Base URL",
-            value=st.session_state.get("llm_base_url", "http://localhost:11434/v1"),
-            key="_local_url",
-        )
-        st.session_state.llm_base_url = base_url
-        model = st.text_input(
-            "Model name",
-            placeholder="llama3.2",
-            value=st.session_state.get("llm_model", ""),
-            key="_local_model",
-        )
-        st.session_state.llm_model = model
+        st.text_input("Base URL", key="llm_base_url",
+                      value=st.session_state.get("llm_base_url", "http://localhost:11434/v1"))
+        st.text_input("Model name", placeholder="llama3.2", key="llm_model")
 
 
 # ---------------------------------------------------------------------------
@@ -560,6 +542,8 @@ def page_adl_recommendation(skills):
                 with col_btn:
                     btn_type = "primary" if i == 0 else "secondary"
                     if st.button("Run this →", key=f"rec_{slug}", type=btn_type):
+                        _carry_adl_context_to_sidebar(step1, step2, time_pref,
+                                                       st.session_state.get("adl_group", ""))
                         go("skill_runner", selected_skill=slug)
                         st.rerun()
 
@@ -770,6 +754,26 @@ def _build_user_prompt(skill, project, context, extra):
     )
 
 
+def _carry_adl_context_to_sidebar(step1, step2, time_pref, group_pref):
+    """Pre-fill sidebar context from ADL selections if not already set."""
+    if st.session_state.get("saved_context"):
+        return  # don't overwrite what the user already entered
+    step1_label = ADL_STEP1_OPTIONS[step1 - 1].split(" — ")[0] if step1 else ""
+    step2_options = ADL_STEP2_OPTIONS.get(step1, [])
+    step2_label = step2_options[step2] if step2 is not None and step2 < len(step2_options) else ""
+    parts = []
+    if step1_label:
+        parts.append(f"Situation: {step1_label}")
+    if step2_label:
+        parts.append(f"Need: {step2_label}")
+    if time_pref:
+        parts.append(f"Time available: {time_pref}")
+    if group_pref:
+        parts.append(f"Group size: {group_pref}")
+    if parts:
+        st.session_state.saved_context = "\n".join(parts)
+
+
 def _parse_sections(text):
     sections = {}
     current = "__preamble__"
@@ -818,13 +822,16 @@ def _run_session(skill, project, context, extra, config):
 
 def _render_result(result):
     st.divider()
-    tab1, tab2, tab3 = st.tabs(["Filled Template", "Steps and Transformations", "Assumptions Made"])
-    with tab1:
-        st.markdown(result["artifact"] or "_No artifact returned._")
-    with tab2:
-        st.markdown(result["steps"] or "_No steps section returned._")
-    with tab3:
-        st.markdown(result["assumptions"] or "_No assumptions section returned._")
+    st.markdown(result["artifact"] or "_No output returned._")
+
+    if result.get("steps") or result.get("assumptions"):
+        st.divider()
+        if result.get("steps"):
+            with st.expander("How we got here"):
+                st.markdown(result["steps"])
+        if result.get("assumptions"):
+            with st.expander("Assumptions made — validate these"):
+                st.markdown(result["assumptions"])
 
 
 # ---------------------------------------------------------------------------
