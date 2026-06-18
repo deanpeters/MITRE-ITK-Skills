@@ -124,6 +124,71 @@ Most PDF worksheets are image-based (designed for printing and writing on), so t
 
 ---
 
+## Using as Claude Code Skills
+
+The `claude-skills/` directory contains 27 ready-to-use [Claude Code](https://claude.ai/code) skill files — one per tool, prefixed with `itk-`. Each file loads the tool's best-fit scenarios, key concepts, and common pitfalls directly into a Claude session, with built-in guidance for running the Adaptive Decision Ladder or skipping it when you already know what you need.
+
+### Install
+
+```bash
+# Clone the repo
+git clone https://github.com/deanpeters/MITRE-ITK-Skills.git
+
+# Symlink all 27 skills into your Claude Code skills directory
+ln -s "$(pwd)/MITRE-ITK-Skills/claude-skills/"itk-*.md ~/.claude/skills/
+```
+
+Or copy individual skills you want:
+
+```bash
+cp MITRE-ITK-Skills/claude-skills/itk-premortem.md ~/.claude/skills/
+```
+
+### Invoke
+
+Once installed, invoke any skill in a Claude Code session:
+
+```
+/itk-premortem
+/itk-value-prop
+/itk-journey-mapping
+/itk-stakeholder-map
+```
+
+### Skill name reference
+
+| Invoke as | Full tool name |
+|---|---|
+| `/itk-premortem` | Premortem |
+| `/itk-problem-framing` | Problem Framing |
+| `/itk-mission-vision` | Mission and Vision Canvas |
+| `/itk-personas` | Personas |
+| `/itk-painstorming` | Painstorming |
+| `/itk-journey-mapping` | Journey Mapping |
+| `/itk-value-prop` | Value Proposition Canvas |
+| `/itk-service-blueprint` | Service Blueprint |
+| `/itk-card-sorting` | Card Sorting |
+| `/itk-storyboarding` | Storyboarding |
+| `/itk-stakeholder-identify` | Stakeholder Identification Canvas |
+| `/itk-stakeholder-map` | Stakeholder Map and Matrix |
+| `/itk-stakeholder-power` | Stakeholder Power Categories |
+| `/itk-stakeholder-quickstart` | Quickstart Stakeholder Engagement Canvas |
+| `/itk-community-map` | Community Map |
+| `/itk-system-map` | System Map |
+| `/itk-culture-building-canvas` | Culture Building Canvas |
+| `/itk-mindmapping` | Mindmapping |
+| `/itk-lotus-blossom` | Lotus Blossom |
+| `/itk-bodystorming` | Bodystorming |
+| `/itk-triz-prism` | TRIZ Prism |
+| `/itk-prototyping` | Prototyping |
+| `/itk-stormdraining` | Stormdraining |
+| `/itk-trimming` | Trimming |
+| `/itk-simplicity-cycle` | Simplicity Cycle |
+| `/itk-retro-rundown` | Retro Rundown |
+| `/itk-rose-bud-thorn` | Rose Bud Thorn |
+
+---
+
 ## Source and Attribution
 
 All tools, descriptions, and facilitation instructions are sourced from the [MITRE Innovation Toolkit](https://itk.mitre.org/toolkit/tools-at-a-glance/), published by The MITRE Corporation. The Key Concepts, PM Applications, Common Pitfalls, and `best_for` enrichment in each SKILL.md was generated with Claude.

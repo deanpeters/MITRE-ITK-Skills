@@ -238,6 +238,17 @@ Run `scripts/generate-catalog.py` to regenerate `catalog/INDEX.md` from all SKIL
 | `scripts/scrape.py` | Scrape MITRE ITK pages, download assets, generate initial SKILL.md files |
 | `scripts/enrich.py` | Enrich all SKILL.md files with PM-focused content via Claude API |
 | `scripts/generate-catalog.py` | Regenerate `catalog/INDEX.md` from skill frontmatter |
+| `scripts/generate-skills.py` | Regenerate `claude-skills/itk-*.md` skill invocation files from SKILL.md content |
+
+### generate-skills.py options
+
+```bash
+python3 scripts/generate-skills.py                   # Regenerate all 27 skill files
+python3 scripts/generate-skills.py --slug <slug>     # Regenerate one skill file
+python3 scripts/generate-skills.py --dry-run         # Preview output paths without writing
+```
+
+Run this after re-enriching a SKILL.md to keep the skill files in sync.
 
 ### enrich.py options
 
