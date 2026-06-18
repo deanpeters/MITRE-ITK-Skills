@@ -1,6 +1,6 @@
 # MITRE ITK Skills for Product Practitioners
 
-![MITRE ITK Skills](mitre-itk-skills.banner.png)
+![MITRE ITK Skills](docs/mitre-itk-skills.banner.png)
 
 A structured library of 27 innovation and design-thinking tools from the [MITRE Innovation Toolkit (ITK)](https://itk.mitre.org/toolkit/tools-at-a-glance/), adapted for product managers, product owners, product builders, and business analysts.
 
