@@ -793,7 +793,6 @@ def _run_session(skill, project, context, extra, config):
     system = _build_system_prompt(skill)
     user_msg = _build_user_prompt(skill, project, context, extra)
 
-    st.divider()
     output_placeholder = st.empty()
     text_so_far = ""
 
@@ -809,8 +808,6 @@ def _run_session(skill, project, context, extra, config):
             st.error(f"Error: {e}")
             return
 
-    output_placeholder.empty()
-
     sections = _parse_sections(text_so_far)
     st.session_state["runner_result"] = {
         "slug": skill["slug"],
@@ -818,6 +815,8 @@ def _run_session(skill, project, context, extra, config):
         "steps":       sections.get("Steps and Transformations", ""),
         "assumptions": sections.get("Assumptions Made", ""),
     }
+    # Rerun so the result renders cleanly from session state with no placeholder artifacts
+    st.rerun()
 
 
 def _render_result(result):

@@ -6,7 +6,8 @@ __pycache__/
 .venv
 venv/
 *.egg-info/
-dist/
+dist/*
+!dist/zips/
 build/
 
 # macOS

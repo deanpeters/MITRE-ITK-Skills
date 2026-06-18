@@ -128,7 +128,9 @@ Most PDF worksheets are image-based (designed for printing and writing on), so t
 
 ## Try It in the Browser
 
-`streamlit_app.py` is a browser-based explorer for the full skill library. Walk the Adaptive Decision Ladder to find the right tool for your situation, or browse all 27 tools directly. Pick a tool, describe your session context, and get a tailored facilitation guide — no account or API key required.
+> **Experimental.** `streamlit_app.py` is a work in progress. Known issue: after a skill run completes, the output may clear itself before you can read it. This is a Streamlit rendering bug we haven't fully resolved — if it happens, clicking "Run" again will regenerate the output.
+
+`streamlit_app.py` is a browser-based explorer for the full skill library. Walk the Adaptive Decision Ladder to find the right tool for your situation, or browse all 27 tools directly. Pick a tool, describe your session context, and get a filled artifact — no account or API key required.
 
 **Deployed app:** _(link once deployed to Streamlit Community Cloud)_
 

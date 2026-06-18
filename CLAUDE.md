@@ -230,6 +230,7 @@ python3 scripts/generate-templates.py --slug <slug>  # 3. generate template.md s
 # 4. manually adorn template.md + write examples/sample.md
 python3 scripts/generate-skills.py --slug <slug>  # 5. generate claude-skills/itk-*.md
 python3 scripts/generate-catalog.py              # 6. update catalog/INDEX.md
+python3 scripts/generate-zips.py --slug <slug>   # 7. regenerate dist/zips/itk-<slug>.zip
 ```
 
 ### Regenerating the catalog index
@@ -247,6 +248,17 @@ Run `scripts/generate-catalog.py` to regenerate `catalog/INDEX.md` from all SKIL
 | `scripts/generate-catalog.py` | Regenerate `catalog/INDEX.md` from skill frontmatter |
 | `scripts/generate-skills.py` | Regenerate `claude-skills/itk-*.md` skill invocation files from SKILL.md content |
 | `scripts/generate-templates.py` | Generate `skills/<slug>/template.md` canvas templates from SKILL.md content |
+| `scripts/generate-zips.py` | Generate `dist/zips/itk-<slug>.zip` per-skill bundles (SKILL.md + template + assets + claude-skill) |
+
+### generate-zips.py options
+
+```bash
+python3 scripts/generate-zips.py                    # Generate all 27 zips
+python3 scripts/generate-zips.py --slug <slug>      # Generate one zip
+python3 scripts/generate-zips.py --dry-run          # Preview without writing
+```
+
+Each zip contains `SKILL.md`, `template.md`, `examples/sample.md` (if present), `assets/` (PDF + PPTX), and the matching `itk-<alias>.md` claude-skill file. GitHub Actions regenerates affected zips automatically on any push to `main` that touches `skills/**` or `claude-skills/**`.
 
 ### generate-templates.py options
 
