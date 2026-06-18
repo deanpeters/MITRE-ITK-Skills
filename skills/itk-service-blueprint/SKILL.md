@@ -1,5 +1,5 @@
 ---
-name: service-blueprint
+name: itk-service-blueprint
 description: Outline and visualize a service to connect the user experience, or “frontstage,” to what happens behind-the-scenes, or “backstage.”
 intent: Achieve a holistic, shared perspective of how the user experiences your service. Provide insights about critical moments and possible improvement throughout the service. Transform the service and create change.
 type: component

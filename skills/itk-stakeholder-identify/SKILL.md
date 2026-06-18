@@ -1,5 +1,5 @@
 ---
-name: stakeholder-identification-canvas
+name: itk-stakeholder-identify
 description: Ideate a more comprehensive & representative set of relevant stakeholders to your project.
 intent: Identify a more comprehensive set of stakeholders (including groups who may benefit or become burned). Consider the needs and priorities of the larger community. Encourage a diverse and inclusive approach to collaboration.
 type: component

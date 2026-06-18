@@ -1,5 +1,5 @@
 ---
-name: community-map
+name: itk-community-map
 description: A fast way to capture and prioritize stakeholders.
 intent: Bring a thorough understanding of who your stakeholders are, how they will be impacted, and how to interface with them throughout the process. Develop a clearer prioritization of individuals to work with and engage.
 type: component

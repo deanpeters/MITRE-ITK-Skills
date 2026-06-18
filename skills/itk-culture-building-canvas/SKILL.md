@@ -1,5 +1,5 @@
 ---
-name: culture-building-canvas
+name: itk-culture-building-canvas
 description: A framework based on “influence channels” that shape and define an organization’s culture.
 intent: Build and foster healthy cultures in a respectful, inclusive, transparent manner. Reduce the time needed to introduce such changes, by identifying the initial steps which can be taken right away. Helps teams develop an actionable, specific culture change plan for their organization.
 type: component

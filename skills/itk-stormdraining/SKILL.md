@@ -1,5 +1,5 @@
 ---
-name: stormdraining
+name: itk-stormdraining
 description: The inverse of brainstorming, reduce a large collection of ideas, activities, or components to a smaller collection of the most valuable or promising ideas.
 intent: Bring clarity to the results of a brainstorming session that generated a large collection of ideas. Thoughtfully prioritize ideas and discard ideas with less value. Increase the team’s mental agility by safely explore risky ideas.
 type: component

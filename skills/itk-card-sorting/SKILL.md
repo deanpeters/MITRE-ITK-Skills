@@ -1,5 +1,5 @@
 ---
-name: card-sorting
+name: itk-card-sorting
 description: This hands-on activity allows participants to communicate and document their mental model and how they think about a set of information, creating a logical structure (e.g., relationships, sequences, timing).
 intent: Determine how to organize and structure information that makes sense to users. Understand the mental models of an individual or a group of people. Explore and assess multiple arrangements and architectures.
 type: component

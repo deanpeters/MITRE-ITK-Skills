@@ -1,5 +1,5 @@
 ---
-name: personas
+name: itk-personas
 description: A descriptive model of a person (user, stakeholder, team member, etc), this tool is most often used to help a team define and understand the needs of its customer.
 intent: Understand users’ needs, motivations, limitations, and capabilities. Represent the full range of diversity among stakeholders, customers, or other groups. Ensure the final product is something a human being will need or want.
 type: component

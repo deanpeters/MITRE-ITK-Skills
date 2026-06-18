@@ -1,5 +1,5 @@
 ---
-name: stakeholder-map-and-matrix
+name: itk-stakeholder-map
 description: Look across stakeholders and categorize them according to key variables (e.g., interest, influence, impact).
 intent: Gain a clear picture of who stakeholders are and determine strategies for stakeholder engagement.
 type: component

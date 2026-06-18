@@ -1,5 +1,5 @@
 ---
-name: lotus-blossom
+name: itk-lotus-blossom
 description: Focus the power of brainstorming using a structured, visual representation of ideas—pushing you to fill out every box with new ideas.
 intent: Help develop many ideas with a focus on quantity. Accelerate the process of coming up with organized and binned ideas. Unlock creativity by encouraging users to go beyond the obvious “first thought” ideas.
 type: component

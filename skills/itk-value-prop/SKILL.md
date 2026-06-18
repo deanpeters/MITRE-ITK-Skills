@@ -1,5 +1,5 @@
 ---
-name: value-proposition-canvas
+name: itk-value-prop
 description: Map user profiles (i.e., jobs, pains, and gains) to values (i.e., gain creators, products and services, pain relievers) to ensure that a product meets user needs.
 intent: Ensure a fit between customers’ needs and the developed solution, which should be value-added for the customers. Quickly identify any disconnects between needs and solutions, exploring creative ways to close those gaps.
 type: component

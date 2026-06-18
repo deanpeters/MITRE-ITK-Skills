@@ -1,5 +1,5 @@
 ---
-name: mission-and-vision-canvas
+name: itk-mission-vision
 description: Develop clear statements about your organization’s future aspirations and present activities.
 intent: Establish clarity and consensus about the team’s present activities, desired future, and the link between the two. Ensure the team’s activities are well-aligned with their objectives.
 type: component

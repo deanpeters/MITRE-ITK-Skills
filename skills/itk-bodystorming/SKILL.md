@@ -1,5 +1,5 @@
 ---
-name: bodystorming
+name: itk-bodystorming
 description: In this physical variant on brainstorming, participants use their body and inexpensive materials or objects to role-play and mimic interaction with a system, product, or experience.
 intent: Explore “risky designs” in cardboard and paper, where the investment and exposure to loss is minimal. Develop empathy with end users by walking through all the interactions end users may have with a system.
 type: component

@@ -1,5 +1,5 @@
 ---
-name: painstorming
+name: itk-painstorming
 description: PAIN stands for Persona, Activities, Insights, and Needs – the four main research topics explored in this structured method for gathering insights about users or user identities.
 intent: Improve the team’s understanding of the user’s behaviors, pain points, assumptions, and needs. Focus the team on addressing actual user preferences. Explore assumptions and identify the unknown gaps about users.
 type: component

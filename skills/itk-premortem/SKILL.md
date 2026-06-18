@@ -1,5 +1,5 @@
 ---
-name: premortem
+name: itk-premortem
 description: Frame and explore your problem by imagining a future scenario in which the proposed activity fails to achieve its objective.
 intent: Clarify what success looks like. Uncover hidden assumptions about activities, outcomes, success, and failure. Mitigate risks by identifying potential causes of failure. Give your team insight into priorities and success criteria
 type: component

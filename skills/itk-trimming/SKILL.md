@@ -1,5 +1,5 @@
 ---
-name: trimming
+name: itk-trimming
 description: Iteratively remove unnecessary elements from a design using a structured approach to reducing complexity to produce a more elegant, streamlined final product, process, or organization.
 intent: Bring clarity to an overly cluttered system with too many components, unwieldy user experience, or lots of steps. Streamline a system by removing unnecessary friction or complexities. Decide whether to pursue risky removals.
 type: component

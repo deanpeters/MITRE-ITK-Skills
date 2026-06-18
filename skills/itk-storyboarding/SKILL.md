@@ -1,5 +1,5 @@
 ---
-name: storyboarding
+name: itk-storyboarding
 description: Stories add a human element to design and data analysis activities. They foster empathy and let designers walk in the users’ shoes, increasing understanding of needs, activities, interests, and pain points.
 intent: Visually document use cases, scenarios, and system interactions. Explore new ideas and scenarios, expressed more effectively than text alone.
 type: component

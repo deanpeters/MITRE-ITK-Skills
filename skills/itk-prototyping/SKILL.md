@@ -1,5 +1,5 @@
 ---
-name: prototyping
+name: itk-prototyping
 description: Developing an early version of a product to convey the look (form-appearance) and feel (function-behavior); can be static or dynamic in nature but is typically built quickly.
 intent: Directly evaluate user interaction with a product or design concept to shape future design directions. Assess whether or not requirements are being met. Take chances with ideas and explore “risky designs” with minimal investment.
 type: component

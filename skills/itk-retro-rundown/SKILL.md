@@ -1,5 +1,5 @@
 ---
-name: retro-rundown
+name: itk-retro-rundown
 description: A structured, facilitated conversation that helps a team reflect on a completed activity or event by comparing what was expected with what happened and identifying concrete improvements.
 intent: Refine processes and strengthen what’s working. Improve performance against specific objectives. Discuss challenging topics constructively (e.g., “what isn’t working well”). Build shared understanding to better analyze issues and decisions.
 type: component

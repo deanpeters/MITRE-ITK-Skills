@@ -1,5 +1,5 @@
 ---
-name: rose-bud-thorn
+name: itk-rose-bud-thorn
 description: Visually categorize positive (rose), potential (bud), or negative (thorn) aspects of a topic (e.g., system, product, process).
 intent: Help quickly identify problems and opportunities to produce a structured summary of each. Constructively discuss difficult topics, such as “what’s not working well.” Build shared understanding among the team to analyze issues.
 type: component

@@ -1,5 +1,5 @@
 ---
-name: stakeholder-power-categories
+name: itk-stakeholder-power
 description: Use this canvas to quickly categorize and prioritize which stakeholders to engage based on power and impact. Highlight impacted stakeholders and ideate on how to elevate their roles on the effort
 intent: When figuring out which stakeholders to engage after you have identified a comprehensive and representative set of stakeholders. You can revisit this tool as the effort evolves, to ensure the right set of stakeholders are involved.
 type: component

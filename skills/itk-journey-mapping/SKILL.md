@@ -1,5 +1,5 @@
 ---
-name: journey-mapping
+name: itk-journey-mapping
 description: Visually synthesize and communicate a user’s end-to-end experience through actions, pain points, wins, and opportunities in a phased process.
 intent: Quickly create a shared vision of the user’s experience from end-to-end, in a way that is inclusive of all contributors Use storytelling to visualize information in a concise and memorable way to spur collaborative conversation.
 type: component

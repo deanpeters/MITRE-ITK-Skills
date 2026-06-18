@@ -1,5 +1,5 @@
 ---
-name: simplicity-cycle
+name: itk-simplicity-cycle
 description: Equip users with a visual vocabulary for discussing complexity and simplicity in a design to assess and express the value of adding or removing design elements.
 intent: Chart a development path and identify which tools to use at each phase. Help frame the problem and establish the “definition of done.” Increase focus on the program’s actual objectives.
 type: component

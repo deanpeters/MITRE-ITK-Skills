@@ -1,5 +1,5 @@
 ---
-name: system-map
+name: itk-system-map
 description: This tool captures the key roles, relationships, and dynamics of a system to enhance understanding of the big picture and potential disruptions to the system.
 intent: Understand the problem space, players, possible disruptions, and opportunities. Address the needs and priorities of the larger system.
 type: component

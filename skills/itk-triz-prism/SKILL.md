@@ -1,5 +1,5 @@
 ---
-name: triz-prism
+name: itk-triz-prism
 description: Use known solutions to find new solutions to difficult problems.
 intent: Uncover novel solutions to existing problems. Cross-pollinate ideas from diverse domains. Enhance understanding of the problem by using analogies and metaphors. Bring diverse perspectives to bear.
 type: component

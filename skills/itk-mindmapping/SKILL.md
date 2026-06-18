@@ -1,5 +1,5 @@
 ---
-name: mindmapping
+name: itk-mindmapping
 description: Generate insights into relationships between concepts in a flexible and engaging way to visualize information.
 intent: Show the relationships between concepts and ideas, which are often difficult. Foster creativity and generate a memorable final product. Introduce new ideas and explore connections between them.
 type: component

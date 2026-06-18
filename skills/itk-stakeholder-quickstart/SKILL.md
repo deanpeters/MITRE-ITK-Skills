@@ -1,5 +1,5 @@
 ---
-name: quickstart-stakeholder-engagement-canvas
+name: itk-stakeholder-quickstart
 description: A quick way to begin developing a plan for effectively engaging a stakeholder.
 intent: Recognizing stakeholders needs, wants, and influence will help you better navigate your effort towards success.
 type: component

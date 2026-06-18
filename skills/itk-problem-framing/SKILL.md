@@ -1,5 +1,5 @@
 ---
-name: problem-framing
+name: itk-problem-framing
 description: Explore a problem space and formulate a robust problem statement to ensure you’re solving the right problem.
 intent: Establish consensus about the team’s purpose Gain a sense of what “done” will look like Define the scope of a team’s initial activities and goals Reduce the likelihood of working at cross purposes
 type: component
