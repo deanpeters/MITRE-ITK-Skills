@@ -67,45 +67,151 @@ sources:
 
 ## Recommending Tools
 
-When a user describes a product situation and asks which tool to use, match the situation to the appropriate phase, then narrow by context.
+### Adaptive Decision Ladder
 
-### Phase selection heuristic
+The **Adaptive Decision Ladder (ADL)** is a multi-step guided flow that narrows tool recommendations through a sequence of numbered choices. It serves two purposes: **performative** (it helps produce a better-fit recommendation by surfacing context the user may not have thought to provide) and **pedagogic** (it teaches practitioners how to think about which class of tool applies when).
 
-| Situation | Phase |
-|-----------|-------|
-| "We don't know who our stakeholders are" | SCOPE |
-| "We need to understand the system we're operating in" | SCOPE |
-| "We're not sure what problem to solve" | DEFINE |
-| "We need to pressure-test our plan" | DEFINE |
-| "We need to understand our users" | UNDERSTAND |
-| "We need to map the user experience" | UNDERSTAND |
-| "We have a problem and need solution ideas" | GENERATE |
-| "We have too many ideas" | EVALUATE → Stormdraining or Trimming |
-| "We need to test a solution" | EVALUATE → Prototyping |
-| "We need to reflect on a sprint or project" | EVALUATE → Retro Rundown |
+**The ADL is a mode, not a gate.** Experienced users can skip it entirely — or exit it mid-flow — by:
+- Naming a tool directly ("walk me through Premortem")
+- Providing enough context to resolve the recommendation in one step ("I'm running a discovery kick-off for a new B2B feature, team of 6, 90 minutes")
+- Saying "just recommend something" at any point
 
-### Common PM scenarios and recommended tools
+**When to offer the ADL vs. answer directly:**
 
-**Starting a quarter or initiative**
-→ Problem Framing + Premortem + Mission and Vision Canvas
+| User input | Response |
+|------------|----------|
+| Names a specific tool | Go directly — explain, contextualize, or walk through it |
+| Describes a clear situation with enough detail | Recommend directly; optionally note: *"If you'd like me to ask a few questions to sharpen this further, just say so"* |
+| Asks a vague question ("which tool should I use?") | Start the ADL at Step 1 |
+| Describes a situation that spans multiple phases | Start the ADL — use their description to pre-answer or skip steps that are already resolved |
 
-**Running discovery**
-→ Painstorming → Personas → Journey Mapping → Value Proposition Canvas
+**Read context before step 1.** Before presenting any options, check: What phase of work is already evident? What tools have already been mentioned? What artifacts (PRD, roadmap, OKRs) have been referenced? Skip or pre-answer any step that context already resolves — never ask what you already know.
 
-**Stakeholder complexity**
-→ Stakeholder Identification Canvas → Stakeholder Map and Matrix → Stakeholder Power Categories → Quickstart Stakeholder Engagement Canvas
+**At any step:** if the user says "just recommend" or provides enough detail to jump ahead, skip remaining steps and go directly to Step 4.
 
-**Feature brainstorming**
-→ Mindmapping or Lotus Blossom → Stormdraining (to converge)
+**How it works:**
+- Present a small numbered list at each decision point
+- The user can reply with a single number (`2`), multiple numbers (`1 & 3`), or choose the open option to describe their situation in their own words
+- Carry all prior selections and context forward into each subsequent step
+- End with 1–3 specific tool recommendations, ranked, with brief rationale tied to their stated situation
 
-**Cutting scope**
-→ Simplicity Cycle → Trimming
+---
 
-**Sprint retrospective**
-→ Retro Rundown or Rose Bud Thorn
+### ADL Step 1 — Situation
 
-**Understanding a complex system**
-→ System Map → Community Map
+Present this first:
+
+> **What best describes where you are right now?**
+> 1. Scoping — figuring out who's involved, what the system looks like, or what our culture needs
+> 2. Defining — not sure what problem to solve, or need to pressure-test a direction
+> 3. Understanding users — need research, journey maps, or clearer user needs
+> 4. Generating solutions — have a defined problem and need ideas
+> 5. Evaluating options — need to test, cut, prioritize, or assess tradeoffs
+> 6. Reflecting — sprint retro, project wrap-up, or team health check
+> 7. Other (describe)
+
+---
+
+### ADL Step 2 — Narrow by specific need
+
+Branch on their Step 1 answer. Present the relevant sub-menu:
+
+**If 1 (Scoping):**
+> 1. I don't know who all my stakeholders are yet
+> 2. I know my stakeholders but need to prioritize who to engage
+> 3. I need a concrete plan for engaging a specific stakeholder
+> 4. I need to map the broader system, community, or ecosystem
+> 5. I need to understand and shape our team or org culture
+> 6. Multiple of the above
+
+**If 2 (Defining):**
+> 1. We're probably solving the wrong problem and need to reframe
+> 2. We have a direction but haven't pressure-tested it for failure
+> 3. We need to align on long-term purpose (mission/vision)
+> 4. Multiple of the above
+
+**If 3 (Understanding users):**
+> 1. We need to define or sharpen who our user actually is
+> 2. We need to map their end-to-end experience (stages, pain points, wins)
+> 3. We need to understand what they need to do, and why (jobs, pains, gains)
+> 4. We need to understand how they mentally organize information
+> 5. We need to see both the user experience and the behind-the-scenes operations
+> 6. Multiple of the above
+
+**If 4 (Generating solutions):**
+> 1. Broad, free-associative ideation — explore the whole space
+> 2. Structured, systematic ideation — fill every cell
+> 3. Embodied ideation — role-play and act out the experience
+> 4. Analogical thinking — borrow solutions from other domains
+
+**If 5 (Evaluating options):**
+> 1. Too many ideas — need to converge to the most valuable
+> 2. Need to test a solution with users before building
+> 3. Need to remove unnecessary complexity from an existing design
+> 4. Need to assess whether adding features adds or subtracts value
+
+**If 6 (Reflecting):**
+> 1. Sprint retrospective — structured team reflection on a recent sprint
+> 2. Project or initiative wrap-up
+> 3. Quick positive/potential/negative scan of a product, process, or system
+
+---
+
+### ADL Step 3 — Constraints
+
+Always ask this, unless constraints are already clear from context:
+
+> **A couple of quick constraints:**
+> Time available:
+> 1. Under 45 minutes
+> 2. 45–90 minutes
+> 3. Multiple sessions are fine
+>
+> Group size:
+> 1. Solo or pair (1–3 people)
+> 2. Small team (4–8 people)
+> 3. Large group (9+ people)
+
+If the user already mentioned time or team size, skip the relevant sub-question and confirm your assumption ("I'll assume a small team and ~60 minutes — let me know if that's off").
+
+---
+
+### ADL Step 4 — Recommendation
+
+Deliver 1–3 tools, in priority order. Format each recommendation as:
+
+> **[Tool Name]** — one sentence on why it fits their specific situation, referencing the steps they chose.
+> _Phase: X · Difficulty: Y · Group: Z · Time: W_
+> → [Link to SKILL.md]
+>
+> Combine with: [Tool Name] if [condition].
+
+If multiple tools are sequenced (e.g., do A before B), say so explicitly: "Start with X to frame the problem, then move to Y to generate solutions."
+
+After the recommendation, offer: "Want me to walk through how to run any of these, or does your situation call for something different?"
+
+---
+
+### Quick-reference: phase heuristics (for direct matching)
+
+Use these when the situation is unambiguous and the ADL isn't needed:
+
+| Situation | Phase | Primary tool(s) |
+|-----------|-------|-----------------|
+| Don't know who the stakeholders are | SCOPE | Stakeholder Identification Canvas |
+| Need to prioritize stakeholder engagement | SCOPE | Stakeholder Map and Matrix → Power Categories |
+| Need to understand the broader system | SCOPE | System Map |
+| Not sure what problem to solve | DEFINE | Problem Framing |
+| Need to pressure-test a plan or OKRs | DEFINE | Premortem |
+| Need long-term direction | DEFINE | Mission and Vision Canvas |
+| Need to understand users | UNDERSTAND | Personas → Painstorming |
+| Need to map the user journey | UNDERSTAND | Journey Mapping |
+| Need to map user needs to product value | UNDERSTAND | Value Proposition Canvas |
+| Have a problem, need ideas | GENERATE | Mindmapping or Lotus Blossom |
+| Too many ideas, need to converge | EVALUATE | Stormdraining |
+| Need to cut scope or complexity | EVALUATE | Simplicity Cycle → Trimming |
+| Need to test a solution | EVALUATE | Prototyping |
+| Sprint retrospective | EVALUATE | Retro Rundown or Rose Bud Thorn |
 
 ---
 
