@@ -42,7 +42,7 @@ def is_deployed():
 
 
 def get_llm_config():
-    """Return the active provider config dict."""
+    """Return the active provider config dict. Keys come from env vars only."""
     if is_deployed():
         return {
             "provider": "Anthropic",
@@ -50,17 +50,23 @@ def get_llm_config():
             "model": "claude-opus-4-8",
             "base_url": None,
         }
+    provider = st.session_state.get("llm_provider", "Anthropic")
+    if provider == "Anthropic":
+        key = os.environ.get("ANTHROPIC_API_KEY", "")
+    elif provider == "OpenAI":
+        key = os.environ.get("OPENAI_API_KEY", "")
+    else:
+        key = "ollama"
     return {
-        "provider":  st.session_state.get("llm_provider", "Anthropic"),
-        "key":       st.session_state.get("llm_key", "") or os.environ.get("ANTHROPIC_API_KEY", ""),
-        "model":     st.session_state.get("llm_model", ANTHROPIC_MODELS[0]),
-        "base_url":  st.session_state.get("llm_base_url", "http://localhost:11434/v1"),
+        "provider": provider,
+        "key":      key,
+        "model":    st.session_state.get("llm_model", ANTHROPIC_MODELS[0]),
+        "base_url": st.session_state.get("llm_base_url", "http://localhost:11434/v1"),
     }
 
 
 def llm_ready(config):
-    provider = config["provider"]
-    if provider == "Local model":
+    if config["provider"] == "Local model":
         return bool(config["model"].strip())
     return bool(config["key"].strip())
 
@@ -305,26 +311,18 @@ def _render_provider_config():
     if provider == "Anthropic":
         model = st.selectbox("Model", ANTHROPIC_MODELS, key="_anthropic_model")
         st.session_state.llm_model = model
-        key = st.text_input(
-            "API key",
-            type="password",
-            placeholder="sk-ant-...",
-            value=st.session_state.get("llm_key", os.environ.get("ANTHROPIC_API_KEY", "")),
-            key="_anthropic_key",
-        )
-        st.session_state.llm_key = key
+        if os.environ.get("ANTHROPIC_API_KEY"):
+            st.success("ANTHROPIC_API_KEY detected")
+        else:
+            st.warning("Set ANTHROPIC_API_KEY in your environment")
 
     elif provider == "OpenAI":
         model = st.selectbox("Model", OPENAI_MODELS, key="_openai_model")
         st.session_state.llm_model = model
-        key = st.text_input(
-            "API key",
-            type="password",
-            placeholder="sk-...",
-            value=st.session_state.get("llm_key", os.environ.get("OPENAI_API_KEY", "")),
-            key="_openai_key",
-        )
-        st.session_state.llm_key = key
+        if os.environ.get("OPENAI_API_KEY"):
+            st.success("OPENAI_API_KEY detected")
+        else:
+            st.warning("Set OPENAI_API_KEY in your environment")
 
     elif provider == "Local model":
         base_url = st.text_input(
@@ -340,13 +338,6 @@ def _render_provider_config():
             key="_local_model",
         )
         st.session_state.llm_model = model
-        st.session_state.llm_key = "ollama"
-
-    config = get_llm_config()
-    if llm_ready(config):
-        st.success(f"Ready ({config['model']})")
-    else:
-        st.caption("Enter an API key to generate facilitation guides.")
 
 
 # ---------------------------------------------------------------------------
@@ -664,7 +655,13 @@ def page_skill_runner(skills):
             if is_deployed():
                 st.error("Something went wrong — please try again later.")
             else:
-                st.error("Configure an LLM provider in the sidebar before generating a guide.")
+                provider = config["provider"]
+                if provider == "Anthropic":
+                    st.error("ANTHROPIC_API_KEY not found. Set it in your environment and restart the app.")
+                elif provider == "OpenAI":
+                    st.error("OPENAI_API_KEY not found. Set it in your environment and restart the app.")
+                else:
+                    st.error("Enter a model name for your local endpoint.")
         elif not goal.strip():
             st.warning("Describe what you want to walk away with — that's how the guide gets tailored.")
         else:

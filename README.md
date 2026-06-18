@@ -137,12 +137,15 @@ Most PDF worksheets are image-based (designed for printing and writing on), so t
 ```bash
 pip install -r requirements.txt
 
-# Set your API key for local use (copy the example and fill it in)
-cp .streamlit/secrets.toml.example .streamlit/secrets.toml
-# edit .streamlit/secrets.toml and add your ANTHROPIC_API_KEY
+# Set your API key as an environment variable — keys are never entered into the UI
+export ANTHROPIC_API_KEY=sk-ant-...   # for Anthropic
+export OPENAI_API_KEY=sk-...          # for OpenAI
+# or run Ollama locally (no key needed)
 
 streamlit run streamlit_app.py
 ```
+
+The sidebar lets you choose provider (Anthropic, OpenAI, Local model) and model. The app reads credentials from your environment — no key entry in the UI.
 
 ---
 
