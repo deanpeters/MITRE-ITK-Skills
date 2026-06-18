@@ -658,9 +658,16 @@ def page_skill_runner(skills):
         elif not context.strip():
             st.warning("Share what you know — the richer your input, the more grounded the output.")
         else:
+            st.session_state.pop("runner_result", None)
             _run_session(skill, project, context, extra, config)
 
+    # Render persisted result (survives reruns from tab clicks etc.)
+    result = st.session_state.get("runner_result")
+    if result and result.get("slug") == slug:
+        _render_result(result)
+
     if st.button("← Pick a different tool"):
+        st.session_state.pop("runner_result", None)
         go("landing")
         st.rerun()
 
@@ -688,13 +695,15 @@ def _build_user_prompt(skill, project, context, extra):
         f"Run the {skill['display_name']} exercise as a worked example and return markdown "
         f"with exactly these H2 sections in this order:\n\n"
         f"## Filled Template\n"
-        f"The completed {skill['display_name']} artifact. Use the MITRE ITK template structure. "
-        f"Fill every field with specific content derived from the context — no placeholders.\n\n"
+        f"The completed {skill['display_name']} artifact using the MITRE ITK template structure. "
+        f"Fill EVERY field and section — leave no placeholders, no '[fill in]', no blank cells. "
+        f"If context is thin for a field, make a reasonable assumption and note it inline with [ASSUMPTION]. "
+        f"Do not truncate or summarize — produce the full artifact.\n\n"
         f"## Steps and Transformations\n"
         f"Number each step from the {skill['display_name']} process. For each step: "
         f"what input was used, what reasoning happened, what output was produced.\n\n"
         f"## Assumptions Made\n"
-        f"List every assumption you introduced where the context was insufficient. "
+        f"List every assumption you introduced where context was insufficient. "
         f"Flag which assumptions most need validation."
     )
 
@@ -719,7 +728,6 @@ def _run_session(skill, project, context, extra, config):
     user_msg = _build_user_prompt(skill, project, context, extra)
 
     st.divider()
-
     output_placeholder = st.empty()
     text_so_far = ""
 
@@ -738,17 +746,23 @@ def _run_session(skill, project, context, extra, config):
     output_placeholder.empty()
 
     sections = _parse_sections(text_so_far)
-    artifact  = sections.get("Filled Template", "")
-    steps     = sections.get("Steps and Transformations", "")
-    assumptions = sections.get("Assumptions Made", "")
+    st.session_state["runner_result"] = {
+        "slug": skill["slug"],
+        "artifact":    sections.get("Filled Template", text_so_far),
+        "steps":       sections.get("Steps and Transformations", ""),
+        "assumptions": sections.get("Assumptions Made", ""),
+    }
 
+
+def _render_result(result):
+    st.divider()
     tab1, tab2, tab3 = st.tabs(["Filled Template", "Steps and Transformations", "Assumptions Made"])
     with tab1:
-        st.markdown(artifact if artifact else text_so_far)
+        st.markdown(result["artifact"] or "_No artifact returned._")
     with tab2:
-        st.markdown(steps or "_No steps section returned._")
+        st.markdown(result["steps"] or "_No steps section returned._")
     with tab3:
-        st.markdown(assumptions or "_No assumptions section returned._")
+        st.markdown(result["assumptions"] or "_No assumptions section returned._")
 
 
 # ---------------------------------------------------------------------------
