@@ -216,8 +216,14 @@ Once installed, invoke any skill in a Claude Code session:
 
 ---
 
+## License
+
+This repository is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) — the same license used by the MITRE Innovation Toolkit, as required by its ShareAlike terms.
+
+You are free to share and adapt the material for non-commercial purposes, provided you give appropriate credit to both The MITRE Corporation and this repository, and distribute any derivative works under the same license. See [LICENSE](LICENSE) for full terms.
+
 ## Source and Attribution
 
-All tools, descriptions, and facilitation instructions are sourced from the [MITRE Innovation Toolkit](https://itk.mitre.org/toolkit/tools-at-a-glance/), published by The MITRE Corporation. The Key Concepts, PM Applications, Common Pitfalls, and `best_for` enrichment in each SKILL.md was generated with Claude.
+All tools, descriptions, and facilitation instructions are sourced from the [MITRE Innovation Toolkit](https://itk.mitre.org/toolkit/tools-at-a-glance/), published by The MITRE Corporation. Approved for Public Release; Distribution Unlimited. Case #18-1663-5.
 
-MITRE ITK is provided under MITRE's open-access research sharing policy. See [itk.mitre.org](https://itk.mitre.org) for the authoritative source.
+The Key Concepts, PM Applications, Common Pitfalls, `best_for` enrichment, canvas templates, and examples in this repository were developed by Dean Peters and generated with Claude.

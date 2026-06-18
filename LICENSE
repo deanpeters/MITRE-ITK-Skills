@@ -1,0 +1,57 @@
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+
+This repository is a derivative work of the MITRE Innovation Toolkit (ITK),
+published by The MITRE Corporation at https://itk.mitre.org.
+
+The original ITK content is offered by The MITRE Corporation under a
+Creative Commons Attribution-NonCommercial-ShareAlike license.
+Approved for Public Release; Distribution Unlimited. Case #18-1663-5.
+
+In accordance with the ShareAlike requirement of that license, this repository —
+including all SKILL.md files, canvas templates, examples, and Claude Code skill
+invocation files — is licensed under the same terms:
+
+    Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+    https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+---
+
+You are free to:
+
+  Share — copy and redistribute the material in any medium or format
+  Adapt — remix, transform, and build upon the material
+
+Under the following terms:
+
+  Attribution — You must give appropriate credit to both The MITRE Corporation
+  (as the source of the original ITK content) and this repository (for the
+  PM-practitioner enrichment layer). Provide a link to the license and indicate
+  if changes were made.
+
+  NonCommercial — You may not use the material for commercial purposes.
+
+  ShareAlike — If you remix, transform, or build upon the material, you must
+  distribute your contributions under the same CC BY-NC-SA license.
+
+---
+
+Attribution for the original MITRE ITK content:
+
+  The MITRE Corporation
+  Innovation Toolkit (ITK)
+  https://itk.mitre.org
+  Copyright © The MITRE Corporation. All Rights Reserved.
+
+Attribution for the PM-practitioner enrichment in this repository
+(Key Concepts, PM Applications, Common Pitfalls, best_for scenarios,
+canvas templates, and examples):
+
+  Dean Peters
+  MITRE ITK Skills
+  https://github.com/deanpeters/MITRE-ITK-Skills
+
+---
+
+This is a human-readable summary of the license. It is not a substitute for
+the full license text, available at:
+https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
