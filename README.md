@@ -155,7 +155,7 @@ The sidebar lets you choose provider (Anthropic, OpenAI, Local model) and model.
 
 | Document | Purpose |
 |---|---|
-| [Adding a New Skill](docs/adding-a-new-skill.md) | How to add a new ITK tool or update an existing one — SKILL.md, template, examples, and Claude skill file |
+| [Skill Workflow](docs/skill-workflow.md) | How to add a new ITK tool or update an existing one — SKILL.md, template, examples, and Claude skill file |
 | [Meet the MITRE ITK Skills Repo](docs/Meet%20the%20MITRE%20ITK%20Skills%20Repo.md) | Introductory blog post: who this library is for, why it exists, and how to use it |
 
 ---

@@ -219,7 +219,7 @@ Use these when the situation is unambiguous and the ADL isn't needed:
 
 ### Adding a new skill or updating an existing one
 
-See [`docs/adding-a-new-skill.md`](docs/adding-a-new-skill.md) for the full workflow, including quality bar for SKILL.md, template adornment, and example file structure.
+See [`docs/skill-workflow.md`](docs/skill-workflow.md) for the full workflow, including quality bar for SKILL.md, template adornment, and example file structure.
 
 Quick reference:
 
