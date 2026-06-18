@@ -24,7 +24,7 @@ This is **not** a general facilitation library. When helping with this repo, fra
 - **GENERATE** (4 tools) — structured brainstorming and ideation
 - **EVALUATE** (6 tools) — testing, prioritization, retrospection
 
-Each tool lives at `skills/<slug>/SKILL.md` with assets in `skills/<slug>/assets/`.
+Each tool lives at `skills/itk-<alias>/SKILL.md` with assets in `skills/itk-<alias>/assets/`.
 
 ---
 
@@ -224,13 +224,12 @@ See [`docs/skill-workflow.md`](docs/skill-workflow.md) for the full workflow, in
 Quick reference:
 
 ```bash
-python3 scripts/scrape.py --slug <slug>           # 1. scrape source page + download assets
-python3 scripts/enrich.py --slug <slug>           # 2. enrich SKILL.md via Claude API
-python3 scripts/generate-templates.py --slug <slug>  # 3. generate template.md skeleton
+python3 scripts/scrape.py --slug itk-<alias>           # 1. scrape source page + download assets
+python3 scripts/enrich.py --slug itk-<alias>           # 2. enrich SKILL.md via Claude API
+python3 scripts/generate-templates.py --slug itk-<alias>  # 3. generate template.md skeleton
 # 4. manually adorn template.md + write examples/sample.md
-python3 scripts/generate-skills.py --slug <slug>  # 5. generate claude-skills/itk-*.md
-python3 scripts/generate-catalog.py              # 6. update catalog/INDEX.md
-python3 scripts/generate-zips.py --slug <slug>   # 7. regenerate dist/zips/itk-<slug>.zip
+python3 scripts/generate-catalog.py                    # 5. update catalog/INDEX.md
+python3 scripts/generate-zips.py --slug itk-<alias>   # 6. regenerate dist/zips/itk-<alias>.zip
 ```
 
 ### Regenerating the catalog index
@@ -246,39 +245,28 @@ Run `scripts/generate-catalog.py` to regenerate `catalog/INDEX.md` from all SKIL
 | `scripts/scrape.py` | Scrape MITRE ITK pages, download assets, generate initial SKILL.md files |
 | `scripts/enrich.py` | Enrich all SKILL.md files with PM-focused content via Claude API |
 | `scripts/generate-catalog.py` | Regenerate `catalog/INDEX.md` from skill frontmatter |
-| `scripts/generate-skills.py` | Regenerate `claude-skills/itk-*.md` skill invocation files from SKILL.md content |
-| `scripts/generate-templates.py` | Generate `skills/<slug>/template.md` canvas templates from SKILL.md content |
-| `scripts/generate-zips.py` | Generate `dist/zips/itk-<slug>.zip` per-skill bundles (SKILL.md + template + assets + claude-skill) |
+| `scripts/generate-templates.py` | Generate `skills/itk-<alias>/template.md` canvas templates from SKILL.md content |
+| `scripts/generate-zips.py` | Generate `dist/zips/itk-<alias>.zip` per-skill bundles (SKILL.md + template + assets) |
 
 ### generate-zips.py options
 
 ```bash
-python3 scripts/generate-zips.py                    # Generate all 27 zips
-python3 scripts/generate-zips.py --slug <slug>      # Generate one zip
-python3 scripts/generate-zips.py --dry-run          # Preview without writing
+python3 scripts/generate-zips.py                         # Generate all 27 zips
+python3 scripts/generate-zips.py --slug itk-<alias>      # Generate one zip
+python3 scripts/generate-zips.py --dry-run               # Preview without writing
 ```
 
-Each zip contains `SKILL.md`, `template.md`, `examples/sample.md` (if present), `assets/` (PDF + PPTX), and the matching `itk-<alias>.md` claude-skill file. GitHub Actions regenerates affected zips automatically on any push to `main` that touches `skills/**` or `claude-skills/**`.
+Each zip contains `SKILL.md`, `template.md`, `examples/sample.md` (if present), and `assets/` (PDF + PPTX). GitHub Actions regenerates affected zips automatically on any push to `main` that touches `skills/**`.
 
 ### generate-templates.py options
 
 ```bash
-python3 scripts/generate-templates.py                   # Generate all 27 templates (skips existing)
-python3 scripts/generate-templates.py --slug <slug>     # Generate one template
-python3 scripts/generate-templates.py --dry-run         # Preview without writing
+python3 scripts/generate-templates.py                         # Generate all 27 templates (skips existing)
+python3 scripts/generate-templates.py --slug itk-<alias>      # Generate one template
+python3 scripts/generate-templates.py --dry-run               # Preview without writing
 ```
 
 Run this after re-enriching a SKILL.md to regenerate its template. Delete `template.md` first to force a refresh.
-
-### generate-skills.py options
-
-```bash
-python3 scripts/generate-skills.py                   # Regenerate all 27 skill files
-python3 scripts/generate-skills.py --slug <slug>     # Regenerate one skill file
-python3 scripts/generate-skills.py --dry-run         # Preview output paths without writing
-```
-
-Run this after re-enriching a SKILL.md to keep the skill files in sync.
 
 ### enrich.py options
 

@@ -44,43 +44,43 @@ Browse all 27 tools organized by phase in the [catalog index](catalog/INDEX.md).
 ### By Product Activity
 
 **Starting a new initiative or quarter**
-- [Problem Framing](skills/problem-framing/SKILL.md) — frame the right problem before committing to a direction
-- [Premortem](skills/premortem/SKILL.md) — stress-test OKRs and plans before locking them
-- [Mission and Vision Canvas](skills/mission-and-vision-canvas/SKILL.md) — align teams on the aspirational destination
+- [Problem Framing](skills/itk-problem-framing/SKILL.md) — frame the right problem before committing to a direction
+- [Premortem](skills/itk-premortem/SKILL.md) — stress-test OKRs and plans before locking them
+- [Mission and Vision Canvas](skills/itk-mission-vision/SKILL.md) — align teams on the aspirational destination
 
 **Stakeholder mapping and engagement**
-- [Stakeholder Identification Canvas](skills/stakeholder-identification-canvas/SKILL.md) — broaden who you're considering
-- [Stakeholder Map and Matrix](skills/stakeholder-map-and-matrix/SKILL.md) — prioritize by influence and interest
-- [Stakeholder Power Categories](skills/stakeholder-power-categories/SKILL.md) — categorize by power dynamics
-- [Quickstart Stakeholder Engagement Canvas](skills/quickstart-stakeholder-engagement-canvas/SKILL.md) — plan your engagement approach
-- [Community Map](skills/community-map/SKILL.md) — fast stakeholder capture for workshops
+- [Stakeholder Identification Canvas](skills/itk-stakeholder-identify/SKILL.md) — broaden who you're considering
+- [Stakeholder Map and Matrix](skills/itk-stakeholder-map/SKILL.md) — prioritize by influence and interest
+- [Stakeholder Power Categories](skills/itk-stakeholder-power/SKILL.md) — categorize by power dynamics
+- [Quickstart Stakeholder Engagement Canvas](skills/itk-stakeholder-quickstart/SKILL.md) — plan your engagement approach
+- [Community Map](skills/itk-community-map/SKILL.md) — fast stakeholder capture for workshops
 
 **User and customer discovery**
-- [Personas](skills/personas/SKILL.md) — define who you're building for
-- [Painstorming](skills/painstorming/SKILL.md) — structured elicitation of user pain
-- [Journey Mapping](skills/journey-mapping/SKILL.md) — end-to-end experience visualization
-- [Service Blueprint](skills/service-blueprint/SKILL.md) — frontstage/backstage service visualization
-- [Value Proposition Canvas](skills/value-proposition-canvas/SKILL.md) — map user needs to product value
-- [Card Sorting](skills/card-sorting/SKILL.md) — understand user mental models
-- [Storyboarding](skills/storyboarding/SKILL.md) — narrative experience communication
+- [Personas](skills/itk-personas/SKILL.md) — define who you're building for
+- [Painstorming](skills/itk-painstorming/SKILL.md) — structured elicitation of user pain
+- [Journey Mapping](skills/itk-journey-mapping/SKILL.md) — end-to-end experience visualization
+- [Service Blueprint](skills/itk-service-blueprint/SKILL.md) — frontstage/backstage service visualization
+- [Value Proposition Canvas](skills/itk-value-prop/SKILL.md) — map user needs to product value
+- [Card Sorting](skills/itk-card-sorting/SKILL.md) — understand user mental models
+- [Storyboarding](skills/itk-storyboarding/SKILL.md) — narrative experience communication
 
 **Ideation and solution generation**
-- [Mindmapping](skills/mindmapping/SKILL.md) — relationship-driven concept exploration
-- [Lotus Blossom](skills/lotus-blossom/SKILL.md) — structured divergent brainstorming
-- [Bodystorming](skills/bodystorming/SKILL.md) — embodied ideation for physical or interaction design
-- [TRIZ Prism](skills/triz-prism/SKILL.md) — analogical problem-solving from known solutions
+- [Mindmapping](skills/itk-mindmapping/SKILL.md) — relationship-driven concept exploration
+- [Lotus Blossom](skills/itk-lotus-blossom/SKILL.md) — structured divergent brainstorming
+- [Bodystorming](skills/itk-bodystorming/SKILL.md) — embodied ideation for physical or interaction design
+- [TRIZ Prism](skills/itk-triz-prism/SKILL.md) — analogical problem-solving from known solutions
 
 **Prioritization and evaluation**
-- [Stormdraining](skills/stormdraining/SKILL.md) — converge a large idea set to the most valuable
-- [Trimming](skills/trimming/SKILL.md) — structured removal of unnecessary complexity
-- [Simplicity Cycle](skills/simplicity-cycle/SKILL.md) — assess complexity vs. value of design elements
-- [Rose Bud Thorn](skills/rose-bud-thorn/SKILL.md) — positive/potential/negative categorization
-- [Prototyping](skills/prototyping/SKILL.md) — low-cost hypothesis testing
+- [Stormdraining](skills/itk-stormdraining/SKILL.md) — converge a large idea set to the most valuable
+- [Trimming](skills/itk-trimming/SKILL.md) — structured removal of unnecessary complexity
+- [Simplicity Cycle](skills/itk-simplicity-cycle/SKILL.md) — assess complexity vs. value of design elements
+- [Rose Bud Thorn](skills/itk-rose-bud-thorn/SKILL.md) — positive/potential/negative categorization
+- [Prototyping](skills/itk-prototyping/SKILL.md) — low-cost hypothesis testing
 
 **Team health and retrospectives**
-- [Retro Rundown](skills/retro-rundown/SKILL.md) — structured team reflection
-- [Culture Building Canvas](skills/culture-building-canvas/SKILL.md) — shaping team or org culture intentionally
-- [System Map](skills/system-map/SKILL.md) — mapping systemic forces and relationships
+- [Retro Rundown](skills/itk-retro-rundown/SKILL.md) — structured team reflection
+- [Culture Building Canvas](skills/itk-culture-building-canvas/SKILL.md) — shaping team or org culture intentionally
+- [System Map](skills/itk-system-map/SKILL.md) — mapping systemic forces and relationships
 
 ---
 
@@ -187,13 +187,16 @@ Then add the repo path to your Claude Code plugin sources in `~/.claude/settings
 git clone https://github.com/deanpeters/MITRE-ITK-Skills.git
 
 # Symlink all 27 skills into your Claude Code skills directory
-find MITRE-ITK-Skills/skills -name "itk-*.md" -exec ln -s "$(pwd)/{}" ~/.claude/skills/ \;
+for dir in MITRE-ITK-Skills/skills/itk-*/; do
+  alias=$(basename "$dir")
+  ln -s "$(pwd)/$dir/SKILL.md" ~/.claude/skills/"$alias".md
+done
 ```
 
 Or copy an individual skill:
 
 ```bash
-cp MITRE-ITK-Skills/skills/premortem/itk-premortem.md ~/.claude/skills/
+cp MITRE-ITK-Skills/skills/itk-itk-premortem/SKILL.md ~/.claude/skills/itk-premortem.md
 ```
 
 ### Invoke

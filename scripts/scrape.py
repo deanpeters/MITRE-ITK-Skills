@@ -21,39 +21,39 @@ from scrapling.fetchers import Fetcher
 BASE_URL = "https://itk.mitre.org"
 
 TOOLS = [
-    # (slug, itk-phase)
+    # (alias, itk-phase)
     # SCOPE
-    ("community-map", "scope"),
-    ("culture-building-canvas", "scope"),
-    ("stakeholder-identification-canvas", "scope"),
-    ("stakeholder-map-and-matrix", "scope"),
-    ("system-map", "scope"),
-    ("quickstart-stakeholder-engagement-canvas", "scope"),
-    ("stakeholder-power-categories", "scope"),
+    ("itk-community-map", "scope"),
+    ("itk-culture-building-canvas", "scope"),
+    ("itk-stakeholder-identify", "scope"),
+    ("itk-stakeholder-map", "scope"),
+    ("itk-system-map", "scope"),
+    ("itk-stakeholder-quickstart", "scope"),
+    ("itk-stakeholder-power", "scope"),
     # DEFINE
-    ("mission-and-vision-canvas", "define"),
-    ("premortem", "define"),
-    ("problem-framing", "define"),
+    ("itk-mission-vision", "define"),
+    ("itk-premortem", "define"),
+    ("itk-problem-framing", "define"),
     # UNDERSTAND
-    ("card-sorting", "understand"),
-    ("journey-mapping", "understand"),
-    ("painstorming", "understand"),
-    ("personas", "understand"),
-    ("service-blueprint", "understand"),
-    ("storyboarding", "understand"),
-    ("value-proposition-canvas", "understand"),
+    ("itk-card-sorting", "understand"),
+    ("itk-journey-mapping", "understand"),
+    ("itk-painstorming", "understand"),
+    ("itk-personas", "understand"),
+    ("itk-service-blueprint", "understand"),
+    ("itk-storyboarding", "understand"),
+    ("itk-value-prop", "understand"),
     # GENERATE
-    ("bodystorming", "generate"),
-    ("lotus-blossom", "generate"),
-    ("mindmapping", "generate"),
-    ("triz-prism", "generate"),
+    ("itk-bodystorming", "generate"),
+    ("itk-lotus-blossom", "generate"),
+    ("itk-mindmapping", "generate"),
+    ("itk-triz-prism", "generate"),
     # EVALUATE
-    ("prototyping", "evaluate"),
-    ("retro-rundown", "evaluate"),
-    ("rose-bud-thorn", "evaluate"),
-    ("simplicity-cycle", "evaluate"),
-    ("stormdraining", "evaluate"),
-    ("trimming", "evaluate"),
+    ("itk-prototyping", "evaluate"),
+    ("itk-retro-rundown", "evaluate"),
+    ("itk-rose-bud-thorn", "evaluate"),
+    ("itk-simplicity-cycle", "evaluate"),
+    ("itk-stormdraining", "evaluate"),
+    ("itk-trimming", "evaluate"),
 ]
 
 

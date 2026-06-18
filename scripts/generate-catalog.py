@@ -64,7 +64,8 @@ def main():
         for t in tools:
             link = f"../skills/{t['slug']}/SKILL.md"
             meta = " · ".join(filter(None, [t["difficulty"], t["group_size"], t["time_required"]]))
-            lines.append(f"- [{t['slug'].replace('-', ' ').title()}]({link}) — {t['description']}" + (f" _{meta}_" if meta else ""))
+            display = t['slug'].removeprefix('itk-').replace('-', ' ').title()
+            lines.append(f"- [{display}]({link}) — {t['description']}" + (f" _{meta}_" if meta else ""))
 
     index_path = catalog_dir / "INDEX.md"
     index_path.write_text("\n".join(lines) + "\n")
