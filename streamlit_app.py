@@ -8,6 +8,12 @@ import anthropic
 import streamlit as st
 import yaml
 
+try:
+    from openai import OpenAI as _OpenAI
+    HAS_OPENAI = True
+except ImportError:
+    HAS_OPENAI = False
+
 # ---------------------------------------------------------------------------
 # Page config
 # ---------------------------------------------------------------------------
@@ -17,6 +23,81 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="expanded",
 )
+
+# ---------------------------------------------------------------------------
+# Provider config
+# ---------------------------------------------------------------------------
+
+ANTHROPIC_MODELS = ["claude-opus-4-8", "claude-sonnet-4-6", "claude-haiku-4-5"]
+OPENAI_MODELS    = ["gpt-4o", "gpt-4o-mini", "o3-mini"]
+PROVIDERS        = ["Anthropic", "OpenAI"] + (["Local model"] if HAS_OPENAI else [])
+
+
+def is_deployed():
+    """True when a server-side Anthropic key is present (Streamlit Community Cloud)."""
+    try:
+        return bool(st.secrets.get("ANTHROPIC_API_KEY"))
+    except Exception:
+        return False
+
+
+def get_llm_config():
+    """Return the active provider config dict."""
+    if is_deployed():
+        return {
+            "provider": "Anthropic",
+            "key": st.secrets["ANTHROPIC_API_KEY"],
+            "model": "claude-opus-4-8",
+            "base_url": None,
+        }
+    return {
+        "provider":  st.session_state.get("llm_provider", "Anthropic"),
+        "key":       st.session_state.get("llm_key", "") or os.environ.get("ANTHROPIC_API_KEY", ""),
+        "model":     st.session_state.get("llm_model", ANTHROPIC_MODELS[0]),
+        "base_url":  st.session_state.get("llm_base_url", "http://localhost:11434/v1"),
+    }
+
+
+def llm_ready(config):
+    provider = config["provider"]
+    if provider == "Local model":
+        return bool(config["model"].strip())
+    return bool(config["key"].strip())
+
+
+def stream_response(config, system, user_msg):
+    """Unified streaming generator. Yields text chunks across all providers."""
+    provider = config["provider"]
+
+    if provider == "Anthropic":
+        client = anthropic.Anthropic(api_key=config["key"])
+        with client.messages.stream(
+            model=config["model"],
+            max_tokens=2048,
+            thinking={"type": "adaptive"},
+            system=system,
+            messages=[{"role": "user", "content": user_msg}],
+        ) as stream:
+            yield from stream.text_stream
+
+    elif provider in ("OpenAI", "Local model"):
+        kwargs = {"api_key": config["key"] or "ollama"}
+        if provider == "Local model":
+            kwargs["base_url"] = config["base_url"]
+        client = _OpenAI(**kwargs)
+        stream = client.chat.completions.create(
+            model=config["model"],
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user_msg},
+            ],
+            stream=True,
+        )
+        for chunk in stream:
+            delta = chunk.choices[0].delta.content
+            if delta:
+                yield delta
+
 
 # ---------------------------------------------------------------------------
 # ADL data
@@ -74,7 +155,6 @@ ADL_STEP2_OPTIONS = {
     ],
 }
 
-# (step1_1indexed, step2_0indexed) → ordered list of recommended slugs
 ADL_RECOMMENDATIONS = {
     (1, 0): ["stakeholder-identification-canvas"],
     (1, 1): ["stakeholder-map-and-matrix", "stakeholder-power-categories"],
@@ -150,8 +230,6 @@ def load_skills():
 
 
 def _normalize_display_name(name):
-    # MITRE H1s use stylized caps (PREMORTEM, PAINStorming, MISsion). Normalize
-    # to title case but preserve known uppercase acronyms.
     PRESERVE = {"TRIZ"}
     return " ".join(
         word if word in PRESERVE else word.title()
@@ -172,18 +250,6 @@ def _parse_frontmatter(content):
 def _extract_section(content, heading):
     m = re.search(rf'## {re.escape(heading)}\n\n(.*?)(?=\n## |\Z)', content, re.DOTALL)
     return m.group(1).strip() if m else ""
-
-
-# ---------------------------------------------------------------------------
-# API client
-# ---------------------------------------------------------------------------
-
-def get_client():
-    key = (
-        (st.secrets.get("ANTHROPIC_API_KEY") if hasattr(st, "secrets") else None)
-        or os.environ.get("ANTHROPIC_API_KEY")
-    )
-    return anthropic.Anthropic(api_key=key) if key else None
 
 
 # ---------------------------------------------------------------------------
@@ -215,9 +281,72 @@ def render_sidebar():
             go("landing")
             st.rerun()
 
+        if not is_deployed():
+            st.divider()
+            _render_provider_config()
+
         st.divider()
         st.caption("[MITRE ITK](https://itk.mitre.org) · CC BY-NC-SA 4.0")
         st.caption("[GitHub](https://github.com/deanpeters/MITRE-ITK-Skills)")
+
+
+def _render_provider_config():
+    st.caption("**LLM provider**")
+
+    provider = st.selectbox(
+        "Provider",
+        PROVIDERS,
+        index=PROVIDERS.index(st.session_state.get("llm_provider", "Anthropic")),
+        label_visibility="collapsed",
+        key="_provider_select",
+    )
+    st.session_state.llm_provider = provider
+
+    if provider == "Anthropic":
+        model = st.selectbox("Model", ANTHROPIC_MODELS, key="_anthropic_model")
+        st.session_state.llm_model = model
+        key = st.text_input(
+            "API key",
+            type="password",
+            placeholder="sk-ant-...",
+            value=st.session_state.get("llm_key", os.environ.get("ANTHROPIC_API_KEY", "")),
+            key="_anthropic_key",
+        )
+        st.session_state.llm_key = key
+
+    elif provider == "OpenAI":
+        model = st.selectbox("Model", OPENAI_MODELS, key="_openai_model")
+        st.session_state.llm_model = model
+        key = st.text_input(
+            "API key",
+            type="password",
+            placeholder="sk-...",
+            value=st.session_state.get("llm_key", os.environ.get("OPENAI_API_KEY", "")),
+            key="_openai_key",
+        )
+        st.session_state.llm_key = key
+
+    elif provider == "Local model":
+        base_url = st.text_input(
+            "Base URL",
+            value=st.session_state.get("llm_base_url", "http://localhost:11434/v1"),
+            key="_local_url",
+        )
+        st.session_state.llm_base_url = base_url
+        model = st.text_input(
+            "Model name",
+            placeholder="llama3.2",
+            value=st.session_state.get("llm_model", ""),
+            key="_local_model",
+        )
+        st.session_state.llm_model = model
+        st.session_state.llm_key = "ollama"
+
+    config = get_llm_config()
+    if llm_ready(config):
+        st.success(f"Ready ({config['model']})")
+    else:
+        st.caption("Enter an API key to generate facilitation guides.")
 
 
 # ---------------------------------------------------------------------------
@@ -274,8 +403,8 @@ def page_adl_step1():
             st.rerun()
     with col_next:
         if st.button("Next →", type="primary", disabled=choice is None):
-            idx = ADL_STEP1_OPTIONS.index(choice) + 1  # 1-indexed
-            if idx == 7:  # "Other"
+            idx = ADL_STEP1_OPTIONS.index(choice) + 1
+            if idx == 7:
                 go("direct_select")
             else:
                 go("adl_step2", adl_step1=idx)
@@ -384,7 +513,7 @@ def page_adl_recommendation(skills):
                         f"{skill['time_required']}"
                     )
                     if warn_time:
-                        st.warning(f"Typically needs {time_req} — may be tight for your window.", icon="⚠")
+                        st.warning(f"Typically needs {time_req} — may be tight for your window.")
                 with col_btn:
                     btn_type = "primary" if i == 0 else "secondary"
                     if st.button("Run this →", key=f"rec_{slug}", type=btn_type):
@@ -456,7 +585,7 @@ def page_direct_select(skills):
 # Page: Skill runner
 # ---------------------------------------------------------------------------
 
-def page_skill_runner(skills, client):
+def page_skill_runner(skills):
     slug = st.session_state.get("selected_skill")
     skill = skills.get(slug)
 
@@ -530,19 +659,23 @@ def page_skill_runner(skills, client):
         submitted = st.form_submit_button("Generate facilitation guide →", type="primary")
 
     if submitted:
-        if not client:
-            st.error("Something went wrong — the guide generator isn't configured. Please try again later.")
+        config = get_llm_config()
+        if not llm_ready(config):
+            if is_deployed():
+                st.error("Something went wrong — please try again later.")
+            else:
+                st.error("Configure an LLM provider in the sidebar before generating a guide.")
         elif not goal.strip():
             st.warning("Describe what you want to walk away with — that's how the guide gets tailored.")
         else:
-            _run_session(skill, project, goal, team_size, time_box, extra, client)
+            _run_session(skill, project, goal, team_size, time_box, extra, config)
 
     if st.button("← Pick a different tool"):
         go("landing")
         st.rerun()
 
 
-def _run_session(skill, project, goal, team_size, time_box, extra, client):
+def _run_session(skill, project, goal, team_size, time_box, extra, config):
     system = f"""You are an expert facilitator and product practitioner helping a team run the MITRE ITK "{skill['display_name']}" exercise.
 
 Generate a tailored, ready-to-use facilitation guide for this specific session — not a generic description of the tool. The facilitator has already read the skill documentation. Optimize for what they actually need to run the session well given their context.
@@ -581,20 +714,13 @@ Be specific and direct. Optimize for someone running this in {time_box} with {te
 
     with st.spinner("Generating..."):
         try:
-            with client.messages.stream(
-                model="claude-opus-4-8",
-                max_tokens=2048,
-                thinking={"type": "adaptive"},
-                system=system,
-                messages=[{"role": "user", "content": user_msg}],
-            ) as stream:
-                for chunk in stream.text_stream:
-                    text_so_far += chunk
-                    output.markdown(text_so_far)
+            for chunk in stream_response(config, system, user_msg):
+                text_so_far += chunk
+                output.markdown(text_so_far)
         except anthropic.AuthenticationError:
-            st.error("Authentication error — please try again later.")
+            st.error("Anthropic authentication failed — check your API key in the sidebar.")
         except Exception as e:
-            st.error(f"API error: {e}")
+            st.error(f"Error: {e}")
 
 
 # ---------------------------------------------------------------------------
@@ -608,7 +734,6 @@ def main():
         st.session_state.page = "landing"
 
     skills = load_skills()
-    client = get_client()
     page = st.session_state.page
 
     if page == "landing":
@@ -624,7 +749,7 @@ def main():
     elif page == "direct_select":
         page_direct_select(skills)
     elif page == "skill_runner":
-        page_skill_runner(skills, client)
+        page_skill_runner(skills)
     else:
         go("landing")
         st.rerun()
