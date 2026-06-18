@@ -1,8 +1,15 @@
+# Meet the MITRE ITK Skills Repo
+
+## Behold, the MITRE’s 27-tool Innovation Toolkit, translated into practical Claude Code skills for people trying to understand messy systems before they build into them.
+
+---
+
+![MITRE ITK Skills](mitre-itk-skills.banner.png)
+
 # I Taught One Canvas for Years. Turns Out MITRE Had 26 More.
 
 *And why this library lives on its own, separate from everything else*
 
----
 
 For years I taught the Problem Solving Canvas like it was the only tool that mattered. Turns out MITRE had 26 more waiting.
 
@@ -50,6 +57,8 @@ Folding these into a general PM skills library would have destroyed that. It wou
 
 ---
 
+![MITRE ITK Skills](mitre-itk-skills.middle.png)
+
 ## A Small Confession About My Past Life
 
 Back when I was still a software engineer, I started dabbling in UX/UI and design. That curiosity is a big part of what eventually pulled me toward product management. The questions that fascinated me weren't just "how do we build this?" They were "how do people actually experience this system? What are they really trying to do? What are we missing?"
@@ -94,6 +103,8 @@ The repo also includes 27 **Claude Code skills**, one per tool, prefixed `itk-`.
 That, to me, is the real value.
 
 ---
+
+![MITRE ITK Skills](mitre-itk-skills.end.png)
 
 ## The Thing About Lost Arts
 
