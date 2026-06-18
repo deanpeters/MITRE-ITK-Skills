@@ -86,6 +86,7 @@ Use Stakeholder Identification Canvas to ideate more stakeholders Use Stakeholde
 
 - PDF: [Download](assets/Community-map.pdf)
 - PPTX Template: [Download](assets/Community-map.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

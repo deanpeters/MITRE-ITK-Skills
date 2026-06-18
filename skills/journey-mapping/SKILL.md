@@ -87,6 +87,7 @@ Personas to define the user perspective from which you’d like to view a proces
 
 - PDF: [Download](assets/Journey-Map.pdf)
 - PPTX Template: [Download](assets/Journey-Map.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

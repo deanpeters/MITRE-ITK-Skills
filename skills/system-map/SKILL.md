@@ -87,6 +87,7 @@ Stakeholder Power Analysis (coming soon!) Stakeholder Identification Canvas Enga
 
 - PDF: [Download](assets/System-Map.pdf)
 - PPTX Template: [Download](assets/System-Map.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

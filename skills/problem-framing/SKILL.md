@@ -86,6 +86,7 @@ Lotus Blossom beforehand to brainstorm problem areas, Lotus Blossom afterwards t
 
 - PDF: [Download](assets/Problem-Framing-Canvas-Color-Print.pdf)
 - PPTX Template: [Download](assets/Problem-Framing-Canvas.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

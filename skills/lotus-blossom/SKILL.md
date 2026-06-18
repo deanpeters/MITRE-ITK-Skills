@@ -85,6 +85,7 @@ System Map to identify a disruptor for the center of the blossom Stormdraining t
 
 - PDF: [Download](assets/Lotus-Blossom.pdf)
 - PPTX Template: [Download](assets/Lotus-Blossom.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

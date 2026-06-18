@@ -86,6 +86,7 @@ Use Stakeholder Identification Canvas and/or Stakeholder Identification Canvas t
 
 - PDF: [Download](assets/Stakeholder-map-matrix.pdf)
 - PPTX Template: [Download](assets/Stakeholder-map-matrix.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

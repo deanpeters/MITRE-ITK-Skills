@@ -88,6 +88,7 @@ Trimming to narrow down buds the team wants to take action on
 
 - PDF: [Download](assets/Rose-bud-thorn.pdf)
 - PPTX Template: [Download](assets/Rose-bud-thorn.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

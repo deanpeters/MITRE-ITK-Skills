@@ -239,6 +239,17 @@ Run `scripts/generate-catalog.py` to regenerate `catalog/INDEX.md` from all SKIL
 | `scripts/enrich.py` | Enrich all SKILL.md files with PM-focused content via Claude API |
 | `scripts/generate-catalog.py` | Regenerate `catalog/INDEX.md` from skill frontmatter |
 | `scripts/generate-skills.py` | Regenerate `claude-skills/itk-*.md` skill invocation files from SKILL.md content |
+| `scripts/generate-templates.py` | Generate `skills/<slug>/template.md` canvas templates from SKILL.md content |
+
+### generate-templates.py options
+
+```bash
+python3 scripts/generate-templates.py                   # Generate all 27 templates (skips existing)
+python3 scripts/generate-templates.py --slug <slug>     # Generate one template
+python3 scripts/generate-templates.py --dry-run         # Preview without writing
+```
+
+Run this after re-enriching a SKILL.md to regenerate its template. Delete `template.md` first to force a refresh.
 
 ### generate-skills.py options
 

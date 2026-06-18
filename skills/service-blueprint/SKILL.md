@@ -88,6 +88,7 @@ Problem Framing to understand the scope of the challenge Journey Mapping to crea
 
 - PDF: [Download](assets/Service-Blueprint.pdf)
 - PPTX Template: [Download](assets/Service-Blueprint.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

@@ -86,6 +86,7 @@ Use Stakeholder Identification Canvas or Community Map to help ideate a set of s
 
 - PDF: [Download](assets/Stakeholder-Power-Categories.pdf)
 - PPTX Template: [Download](assets/Stakeholder-Power-Categories.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

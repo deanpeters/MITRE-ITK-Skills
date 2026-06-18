@@ -89,6 +89,7 @@ Problem Framing to define the problem to be solved Personas to understand your a
 
 - PDF: [Download](assets/Culture-building-.pdf)
 - PPTX Template: [Download](assets/Culture-building-.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

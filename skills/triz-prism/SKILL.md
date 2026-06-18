@@ -84,6 +84,7 @@ Problem Framing first to define the problem Prototyping after to test out your p
 
 - PDF: [Download](assets/TRIZ-prism.pdf)
 - PPTX Template: [Download](assets/TRIZ-prism.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

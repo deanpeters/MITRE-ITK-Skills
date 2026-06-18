@@ -87,6 +87,7 @@ Use Community Map to ideate more stakeholders Use Stakeholder Map & Matrix and/o
 
 - PDF: [Download](assets/Stakeholder-Identification-Canvas.pdf)
 - PPTX Template: [Download](assets/Stakeholder-Identification-Canvas.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

@@ -86,6 +86,7 @@ Problem Framing Mission & Vision Canvas Stakeholder tools ( Stakeholder Map & Ma
 
 - PDF: [Download](assets/Premortem.pdf)
 - PPTX Template: [Download](assets/Premortem.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

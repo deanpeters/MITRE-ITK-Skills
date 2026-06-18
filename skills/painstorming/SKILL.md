@@ -85,6 +85,7 @@ Journey Mapping Storyboarding Personas
 
 - PDF: [Download](assets/PAINstorming_v2.pdf)
 - PPTX Template: [Download](assets/PAINstorming_v2.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

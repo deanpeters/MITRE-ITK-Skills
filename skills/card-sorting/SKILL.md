@@ -87,6 +87,7 @@ Mindmapping to come up with a large amount of ideas to sort Trimming to narrow d
 
 - PDF: [Download](assets/Card-sorting.pdf)
 - PPTX Template: [Download](assets/Card-sorting.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

@@ -90,6 +90,7 @@ Community Map, Stakeholder Identification, Personas, and PAINstorming to underst
 
 - PDF: [Download](assets/Prototyping-Exercise-Tool-1.pdf)
 - PPTX Template: [Download](assets/Prototyping-Exercise-Tool.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

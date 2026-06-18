@@ -87,6 +87,7 @@ Problem Framing Storyboarding
 
 - PDF: [Download](assets/Mission-vision-canvas.pdf)
 - PPTX Template: [Download](assets/Mission-vision-canvas.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

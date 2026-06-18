@@ -89,6 +89,7 @@ Use Stakeholder Identification Canvas and/or Community Map to help ideate your s
 
 - PDF: [Download](assets/QuickStart-Stakeholder-Engagement-Canvas.pdf)
 - PPTX Template: [Download](assets/QuickStart-Stakeholder-Engagement-Canvas.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

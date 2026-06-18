@@ -88,6 +88,7 @@ Prototyping Storyboarding
 
 - PDF: [Download](assets/Bodystorming.pdf)
 - PPTX Template: [Download](assets/Bodystorming.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

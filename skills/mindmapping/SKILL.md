@@ -85,6 +85,7 @@ System Map Trimming Stormdraining
 
 - PDF: [Download](assets/Mind-mapping.pdf)
 - PPTX Template: [Download](assets/Mind-mapping.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

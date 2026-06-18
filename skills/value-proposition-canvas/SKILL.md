@@ -86,6 +86,7 @@ Personas to help frame the user you want to target Prototyping to get feedback o
 
 - PDF: [Download](assets/Value-Proposition.pdf)
 - PPTX Template: [Download](assets/Value-Proposition.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

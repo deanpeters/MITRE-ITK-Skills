@@ -82,6 +82,7 @@ Lotus Blossom or Mindmapping to come up with the initial set of ideas
 
 - PDF: [Download](assets/Storm-draining.pdf)
 - PPTX Template: [Download](assets/Storm-draining.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

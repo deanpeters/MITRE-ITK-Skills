@@ -86,6 +86,7 @@ Journey Mapping Storyboarding
 
 - PDF: [Download](assets/Personas.pdf)
 - PPTX Template: [Download](assets/Personas.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

@@ -86,6 +86,7 @@ Personas to focus the storyboard PAINstorming to learn more about what the user 
 
 - PDF: [Download](assets/Storyboarding.pdf)
 - PPTX Template: [Download](assets/Storyboarding.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

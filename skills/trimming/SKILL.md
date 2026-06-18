@@ -87,6 +87,7 @@ Lotus Blossom After Problem Framing and if multiple HMW statements are generated
 
 - PDF: [Download](assets/Trimming.pdf)
 - PPTX Template: [Download](assets/Trimming.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 

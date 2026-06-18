@@ -84,6 +84,7 @@ Trimming Prototyping
 
 - PDF: [Download](assets/Simplicity-cycle.pdf)
 - PPTX Template: [Download](assets/Simplicity-cycle.pptx)
+- Markdown Template: [template.md](template.md)
 
 ## Metadata
 
