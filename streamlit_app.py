@@ -180,8 +180,7 @@ def _extract_section(content, heading):
 
 def get_client():
     key = (
-        st.session_state.get("anthropic_api_key")
-        or (st.secrets.get("ANTHROPIC_API_KEY") if hasattr(st, "secrets") else None)
+        (st.secrets.get("ANTHROPIC_API_KEY") if hasattr(st, "secrets") else None)
         or os.environ.get("ANTHROPIC_API_KEY")
     )
     return anthropic.Anthropic(api_key=key) if key else None
@@ -215,25 +214,6 @@ def render_sidebar():
             reset()
             go("landing")
             st.rerun()
-
-        st.divider()
-
-        existing = st.session_state.get("anthropic_api_key", "")
-        key_input = st.text_input(
-            "Anthropic API key",
-            type="password",
-            placeholder="sk-ant-...",
-            value=existing,
-            help="Required to generate facilitation guides. Get one at console.anthropic.com",
-        )
-        if key_input:
-            st.session_state.anthropic_api_key = key_input
-
-        client = get_client()
-        if client:
-            st.success("API key set", icon="✓")
-        else:
-            st.caption("Add an API key above to generate facilitation guides.")
 
         st.divider()
         st.caption("[MITRE ITK](https://itk.mitre.org) · CC BY-NC-SA 4.0")
@@ -551,7 +531,7 @@ def page_skill_runner(skills, client):
 
     if submitted:
         if not client:
-            st.error("Add your Anthropic API key in the sidebar to generate a guide.")
+            st.error("Something went wrong — the guide generator isn't configured. Please try again later.")
         elif not goal.strip():
             st.warning("Describe what you want to walk away with — that's how the guide gets tailored.")
         else:
@@ -612,7 +592,7 @@ Be specific and direct. Optimize for someone running this in {time_box} with {te
                     text_so_far += chunk
                     output.markdown(text_so_far)
         except anthropic.AuthenticationError:
-            st.error("Invalid API key. Check the key in the sidebar.")
+            st.error("Authentication error — please try again later.")
         except Exception as e:
             st.error(f"API error: {e}")
 
