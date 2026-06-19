@@ -4,6 +4,19 @@ A candid account of building a structured AI skills library from a third-party f
 
 ---
 
+## Inspiration
+
+The primary design reference for this library was the **[Product Manager Skills repo](https://github.com/deanpeters/product-manager-skills)** — a Claude Code skills library built around PM frameworks and practices. That repo established the core patterns we adopted here:
+
+- **One skill per directory, one SKILL.md file** — the skill file is the unit of deployment
+- **The learning simulator pattern** — when a user invokes a skill, the AI runs the exercise end-to-end against the user's context and returns a filled artifact, not facilitation instructions
+- **Three-section output structure** — `## Filled Template` (the artifact, rendered first), `## Steps and Transformations` (how we got there), `## Assumptions Made` (what was inferred)
+- **No follow-up questions** — the AI makes explicit labeled assumptions rather than asking the user to fill in missing context
+
+The Streamlit app's skill runner was rebuilt entirely around this pattern after the first version returned facilitation guides instead of artifacts. The PM Skills `app/main.py` was the direct reference for the prompt structure and output layout.
+
+---
+
 ## What We Were Building
 
 The [MITRE Innovation Toolkit (ITK)](https://itk.mitre.org/toolkit/tools-at-a-glance/) is a publicly available collection of 27 facilitation tools rooted in human-centered design and systems thinking. The tools are well-documented on the web, with downloadable PDF worksheets and PPTX templates.
@@ -67,6 +80,53 @@ This split — MITRE owns the canonical content, Claude adds the practitioner la
 ### What didn't work
 
 **Trying to extract PDF content.** Most ITK PDFs are image-based worksheets — there's no selectable text. Several hours went into `pdfplumber` before accepting that the web page is the authoritative source and the PDF is a printable artifact. The CLAUDE.md now explicitly notes this so no one repeats the mistake.
+
+---
+
+## Converting Visual Templates to Text
+
+This was one of the more interesting problems in the project. The MITRE ITK's primary artifacts — the PDF worksheets and PPTX templates — are visual canvases: boxes, grids, 2x2 matrices, swim lanes. They're designed to be printed and written on or filled in a slide deck. None of that structure is semantically present in the file — PDFs are image-based with no extractable text, and the PPTX files are slide layouts with floating text boxes.
+
+The challenge: turn a visual canvas into a text-based markdown template that could be filled by an AI and read back as coherent output.
+
+### The approach
+
+**Step 1 — Derive structure from the web page, not the file.**
+
+The MITRE ITK web pages describe each tool's facilitation steps in plain prose. That prose is the canonical description of what fields the canvas has and what each section is for. The scraper pulls this content. The enriched SKILL.md's `## How to Do It` section becomes the authoritative description of the canvas structure.
+
+The PDF and PPTX are downloaded and included in the zip bundle as reference artifacts for practitioners running in-person sessions, but they are never the source of truth for template structure.
+
+**Step 2 — Use Claude to infer the markdown structure from SKILL.md.**
+
+`generate-templates.py` calls Claude with the full SKILL.md content and a prompt that asks it to:
+
+- Mirror the actual canvas layout from the How to Do It steps
+- Use markdown tables (`| col | col |`) for any grid, matrix, 2x2, or multi-column structure
+- Use `## Step N` headers that match the facilitation steps
+- Place `[placeholder text]` in every field a practitioner fills in
+- Open with a `## Session Info` block (Date, Facilitator, Team/Project, Time Box, Participants)
+
+The generated template is a structural skeleton — correct shape, correct fields, empty values. It is not a finished template.
+
+**Step 3 — Manual adornment.**
+
+The generator can't write quality checks, because quality checks require judgment about what failure looks like for each specific field. That's a human step. A finished template also includes:
+
+- `> **Quality check:**` blocks after significant fields — one or two sentences on what distinguishes a useful answer from a vague one
+- Guidance notes inside each section on what "good" looks like
+- A **Facilitator Checklist** at the end — scannable list of the most common failure modes
+- A **Diversity Coverage Check** for tools that require considering who may be excluded (Stakeholder Identification, Personas, Community Map, Service Blueprint, System Map)
+
+### What this looks like in practice
+
+A stakeholder map canvas becomes a markdown table with rows for each stakeholder and columns for influence, interest, engagement approach, and notes. A premortem becomes a structured list with a hypothesis row, an impact/likelihood table for risks, and a mitigation column. A persona canvas becomes a set of labeled sections with specific fields (role, goals, frustrations, current workarounds, success metrics) rather than open-ended prose boxes.
+
+The key insight: AI fills text better than it fills visual space. A markdown template with named fields and placeholder text gives the AI a scaffold to work against. Without it, the output tends to be prose narrative rather than structured artifact. With it, the output mirrors the actual canvas format that practitioners recognize.
+
+### The harder cases
+
+Some canvases are genuinely visual in ways that don't translate cleanly to markdown. The **Simplicity Cycle** is an XY scatter plot — complexity on one axis, goodness on the other. The **System Map** is a node-and-edge diagram. For these, the template represents the *inputs* to the visual (the elements to be placed, with their assessed coordinates or relationships) rather than the visual itself, and notes that the output should be transferred to the actual canvas for visualization.
 
 ---
 
