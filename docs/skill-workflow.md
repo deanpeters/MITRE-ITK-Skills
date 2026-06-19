@@ -14,24 +14,26 @@ Both scenarios follow the same quality bar. The core rule: **all skill content m
 ### Step 1 — Scrape the source page
 
 ```bash
-python3 scripts/scrape.py --slug <new-slug>
+python3 scripts/scrape.py --slug itk-<alias>
 ```
 
-This fetches the ITK tool page, downloads the PDF and PPTX, and generates a thin `skills/<slug>/SKILL.md` with the scraped content. Verify the output:
+This fetches the ITK tool page, downloads the PDF and PPTX, and generates a thin `skills/itk-<alias>/SKILL.md` with the scraped content. Verify the output:
 
-- `skills/<slug>/SKILL.md` exists with populated What Is It, Why Use It, When to Use It, How to Do It sections
-- `skills/<slug>/assets/<file>.pdf` and `.pptx` downloaded
+- `skills/itk-<alias>/SKILL.md` exists with populated What Is It, Why Use It, When to Use It, How to Do It sections
+- `skills/itk-<alias>/assets/<file>.pdf` and `.pptx` downloaded
 
 If the scraper misses sections (Divi layout differences, new page structure), fill them in manually from the ITK page. The web page is the authoritative source — not the PDF, which is usually image-based with no extractable text.
 
-Add the new slug to the `TOOLS` list in `scripts/scrape.py`, `scripts/enrich.py`, `scripts/generate-skills.py`, and `scripts/generate-templates.py`.
+Add the new alias to the `TOOLS` list in `scripts/scrape.py`, `scripts/enrich.py`, and `scripts/generate-templates.py`.
+
+Also update the `name:` frontmatter field in the new SKILL.md to match the alias exactly (e.g. `name: itk-premortem`). This is what Claude Code reads for the slash command name.
 
 ---
 
 ### Step 2 — Enrich the SKILL.md
 
 ```bash
-python3 scripts/enrich.py --slug <new-slug>
+python3 scripts/enrich.py --slug itk-<alias>
 ```
 
 This calls Claude API to add:
@@ -48,17 +50,17 @@ This calls Claude API to add:
 - Common Pitfalls name specific failure modes with product consequences, not generic warnings
 - Nothing contradicts or invents beyond the MITRE source
 
-Edit `skills/<slug>/SKILL.md` directly if any section needs correction.
+Edit `skills/itk-<alias>/SKILL.md` directly if any section needs correction.
 
 ---
 
 ### Step 3 — Write the template
 
 ```bash
-python3 scripts/generate-templates.py --slug <new-slug>
+python3 scripts/generate-templates.py --slug itk-<alias>
 ```
 
-This generates `skills/<slug>/template.md` from the SKILL.md content. The auto-generated template is a starting point — **review and adorn it** before considering it done.
+This generates `skills/itk-<alias>/template.md` from the SKILL.md content. The auto-generated template is a starting point — **review and adorn it** before considering it done.
 
 #### What a complete template looks like
 
@@ -89,7 +91,7 @@ Keep them tight — one or two sentences. They should call out the most common m
 
 ### Step 4 — Write examples
 
-Create `skills/<slug>/examples/sample.md`.
+Create `skills/itk-<alias>/examples/sample.md`.
 
 Every example file needs two examples:
 
@@ -118,17 +120,13 @@ Use the same product context across both examples in the same file — it makes 
 
 ---
 
-### Step 5 — Generate the Claude Code skill file
+### Step 5 — Add to marketplace.json
 
-```bash
-python3 scripts/generate-skills.py --slug <new-slug>
-```
+Add a corresponding entry to `.claude-plugin/marketplace.json` — copy an existing entry and update `name`, `source`, `description`, `category`, and `tags`:
 
-This writes `skills/<slug>/itk-<alias>.md`. If the slug is long (more than ~30 characters), add a shorter alias to the `SLUG_ALIASES` dict in `scripts/generate-skills.py` before running.
-
-Review the generated file: confirm the best_for scenarios and Key Concepts pulled in cleanly and the "How to Help" section reads correctly.
-
-Then add a corresponding entry to `.claude-plugin/marketplace.json` — copy an existing entry and update `name`, `source`, `description`, `category`, and `tags`. The name must match the `itk-<alias>` pattern; the source path is `./skills/<slug>/itk-<alias>.md`.
+- `name` must be `itk-<alias>` (e.g. `itk-premortem`)
+- `source` must be `./skills/itk-<alias>/SKILL.md`
+- `category` must match the ITK phase: `scope`, `define`, `understand`, `generate`, or `evaluate`
 
 ---
 
@@ -142,22 +140,30 @@ Verify the new tool appears in `catalog/INDEX.md` under the correct phase.
 
 ---
 
-### Step 7 — Commit
+### Step 7 — Generate the zip
+
+```bash
+python3 scripts/generate-zips.py --slug itk-<alias>
+```
+
+---
+
+### Step 8 — Commit
 
 Stage and commit all new files together:
 
 ```
-skills/<slug>/SKILL.md
-skills/<slug>/template.md
-skills/<slug>/examples/sample.md
-skills/<slug>/assets/<file>.pdf
-skills/<slug>/assets/<file>.pptx
-skills/<slug>/itk-<alias>.md
-dist/zips/itk-<slug>.zip
+skills/itk-<alias>/SKILL.md
+skills/itk-<alias>/template.md
+skills/itk-<alias>/examples/sample.md
+skills/itk-<alias>/assets/<file>.pdf
+skills/itk-<alias>/assets/<file>.pptx
+dist/zips/itk-<alias>.zip
 catalog/INDEX.md
+.claude-plugin/marketplace.json
 ```
 
-Also commit the updated `TOOLS` lists in the four scripts if you added the new slug.
+Also commit the updated `TOOLS` lists in the three scripts if you added the new alias.
 
 ---
 
@@ -168,7 +174,7 @@ When MITRE revises a tool — new facilitation steps, a redesigned canvas, updat
 ### Re-scrape
 
 ```bash
-python3 scripts/scrape.py --slug <slug>
+python3 scripts/scrape.py --slug itk-<alias>
 ```
 
 This **overwrites** the SKILL.md with freshly scraped content, losing any manually added enrichment. Before re-scraping:
@@ -183,25 +189,19 @@ This **overwrites** the SKILL.md with freshly scraped content, losing any manual
 Delete the existing template first, then regenerate:
 
 ```bash
-rm skills/<slug>/template.md
-python3 scripts/generate-templates.py --slug <slug>
+rm skills/itk-<alias>/template.md
+python3 scripts/generate-templates.py --slug itk-<alias>
 ```
 
 Review the new template against the revised canvas structure. Re-apply adornment (quality checks, guidance notes, checklist) — the generator produces a structural skeleton, not a finished template.
 
 ### Update examples
 
-Examples reference the template's structure. If the canvas structure changed significantly, the examples need updating too. Open `skills/<slug>/examples/sample.md` and check that:
+Examples reference the template's structure. If the canvas structure changed significantly, the examples need updating too. Open `skills/itk-<alias>/examples/sample.md` and check that:
 
 - The filled-in good example still maps to the revised template fields
 - Any steps or sections the MITRE update removed are removed from the examples
 - Any new steps or sections are illustrated in the good example
-
-### Regenerate skill file
-
-```bash
-python3 scripts/generate-skills.py --slug <slug>
-```
 
 ---
 
@@ -213,17 +213,15 @@ python3 scripts/generate-skills.py --slug <slug>
 | `SKILL.md` (Key Concepts, PM Applications, Common Pitfalls, `best_for`) | MITRE + Claude enrichment | PM-practitioner framing; must not contradict MITRE |
 | `template.md` | Structure mirrors MITRE canvas/worksheet | Quality checks, guidance notes, checklists are additive |
 | `examples/sample.md` | Fictional but realistic PM scenario | Good/bad contrast; annotations explain the why |
-| `itk-<alias>.md` | Derived from SKILL.md | "How to Help" pattern is fixed across all skills |
 
 ---
 
 ## File Structure for a Complete Skill
 
 ```
-skills/<slug>/
-  SKILL.md              ← enriched skill documentation
+skills/itk-<alias>/
+  SKILL.md              ← the skill file (name: itk-<alias> in frontmatter)
   template.md           ← annotated canvas template
-  itk-<alias>.md        ← Claude Code skill invocation file
   examples/
     sample.md           ← good vs. bad filled examples
   assets/
@@ -231,7 +229,7 @@ skills/<slug>/
     <file>.pptx         ← original MITRE template
 
 dist/zips/
-  itk-<slug>.zip        ← pre-built download bundle (auto-regenerated by CI)
+  itk-<alias>.zip       ← pre-built download bundle (auto-regenerated by CI)
 
 .claude-plugin/
   plugin.json           ← plugin metadata (name, version, author)

@@ -26,13 +26,15 @@ This is **not** a general facilitation library. When helping with this repo, fra
 
 Each tool lives at `skills/itk-<alias>/SKILL.md` with assets in `skills/itk-<alias>/assets/`.
 
+**Critical:** the `name:` field in every SKILL.md frontmatter must exactly match the directory alias (e.g. `name: itk-premortem`). This is what Claude Code reads to register the slash command. A mismatch causes the skill to load under the wrong name.
+
 ---
 
 ## SKILL.md Format
 
 ```
 ---
-name: slug
+name: itk-<alias>
 description: one-line description
 intent: purpose statement
 type: component
@@ -215,6 +217,21 @@ Use these when the situation is unambiguous and the ADL isn't needed:
 
 ---
 
+## Streamlit App
+
+`streamlit_app.py` is a browser-based explorer and skill runner. It loads all 27 skills from `skills/itk-*/SKILL.md` and `skills/itk-*/template.md`, presents the Adaptive Decision Ladder to guide tool selection, and runs any skill against the user's context using the Claude API (or OpenAI / local Ollama).
+
+Credentials come from environment variables only — never from UI input:
+- `ANTHROPIC_API_KEY` for Anthropic
+- `OPENAI_API_KEY` for OpenAI
+- Ollama needs no key (local)
+
+On Streamlit Community Cloud, set `ANTHROPIC_API_KEY` in the app's Secrets settings. The app detects deployment via `st.secrets`.
+
+**Known issue:** output may clear after generation due to a Streamlit rendering bug with scroll-triggered rerenders. The app is marked experimental in the README. Clicking Run again regenerates the output.
+
+---
+
 ## Updating or Extending Skills
 
 ### Adding a new skill or updating an existing one
@@ -271,17 +288,17 @@ Run this after re-enriching a SKILL.md to regenerate its template. Delete `templ
 ### enrich.py options
 
 ```bash
-python3 scripts/enrich.py                    # Enrich all 27 skills (skips already-enriched)
-python3 scripts/enrich.py --slug <slug>      # Enrich one skill
-python3 scripts/enrich.py --dry-run          # Preview what would be added
+python3 scripts/enrich.py                            # Enrich all 27 skills (skips already-enriched)
+python3 scripts/enrich.py --slug itk-<alias>         # Enrich one skill
+python3 scripts/enrich.py --dry-run                  # Preview what would be added
 ```
 
 ### scrape.py options
 
 ```bash
-python3 scripts/scrape.py                    # Re-scrape all 27 tools
-python3 scripts/scrape.py --slug <slug>      # Re-scrape one tool
-python3 scripts/scrape.py --dry-run          # Preview without writing
+python3 scripts/scrape.py                            # Re-scrape all 27 tools
+python3 scripts/scrape.py --slug itk-<alias>         # Re-scrape one tool
+python3 scripts/scrape.py --dry-run                  # Preview without writing
 ```
 
 ---
